@@ -8,7 +8,7 @@ public class MainPunManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private MainSessionManager _session;
 
-    private enum Phase { Morning, Evening, Night }
+    private enum Session { Morning, Evening, Night }
 
     private Dictionary<int, bool> _aliveDictionary = new Dictionary<int, bool>();
     private List<int> _normalStudents = new List<int>();
@@ -109,12 +109,23 @@ public class MainPunManager : MonoBehaviourPunCallbacks
             GameManager.Data._playerState = GameData.PlayerState.Spy;
 
         _session.DataSynchronize();
-        _session.FlowTime((int)Phase.Morning);
+        RequestSessionChange((int)Session.Morning);
     }
 
     [PunRPC]
     private void RequestSynchronizeTimer(float time)
     {
         _session.SetTimer(time);
+    }
+
+    [PunRPC]
+    private void RequestSessionChange(int session)
+    {
+        _session.FlowTime(session);
+    }
+
+    public void SessionChange(int session)
+    {
+        photonView.RPC("RequestSessionChange", RpcTarget.AllBufferedViaServer, session);
     }
 }

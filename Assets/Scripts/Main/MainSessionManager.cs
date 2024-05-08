@@ -11,6 +11,8 @@ public class MainSessionManager : MonoBehaviour
     [SerializeField] private EveningSession _evening;
     [SerializeField] private NightSession _night;
 
+    private int _session;
+
     public float Timer { get; private set; }
 
     public void DataSynchronize()
@@ -22,11 +24,17 @@ public class MainSessionManager : MonoBehaviour
     private IEnumerator TimerRoutine()
     {
         Timer = 100f;
-        while (Timer > 0f)
+        while (true)
         {
             yield return null;
             Timer -= Time.deltaTime;
             _timer.fillAmount = Timer * 0.01f;
+
+            if (Timer < 0f)
+            {
+                Timer = 100f;
+                _pun.SessionChange(_session + 1);
+            }
         }
     }
 
@@ -35,12 +43,13 @@ public class MainSessionManager : MonoBehaviour
         Timer = time;
     }
 
-    public void FlowTime(int time)
+    public void FlowTime(int session)
     {
-        if (time < 0 || time > 2)
-            time = 0;
+        if (session < 0 || session > 2)
+            session = 0;
+        _session = session;
 
-        switch (time)
+        switch (session)
         {
             default:
             case 0:
