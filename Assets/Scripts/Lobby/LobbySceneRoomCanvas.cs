@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 using UnityEngine;
 
 public class LobbySceneRoomCanvas : SceneUI
@@ -13,7 +14,7 @@ public class LobbySceneRoomCanvas : SceneUI
         if (GetButton("QuitButton", out var qButton))
             qButton.onClick.AddListener(OnLeaveRoomTouched);
 
-        _playerEntryList = GetComponentsInChildren<PlayerEntry>();
+        _playerEntryList = GetComponentsInChildren<PlayerEntry>().OrderBy(t => t.name).ToArray();
     }
 
     void OnEnable()
@@ -22,7 +23,7 @@ public class LobbySceneRoomCanvas : SceneUI
 
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
-            _playerEntryList[i].Initialize(PhotonNetwork.PlayerList[i]);
+            _playerEntryList[i].InitializeInLobby(PhotonNetwork.PlayerList[i]);
         }
 
         PhotonNetwork.LocalPlayer.SetReady(false);
@@ -46,7 +47,7 @@ public class LobbySceneRoomCanvas : SceneUI
             if (_playerEntryList[i]._isUsing)
                 continue;
 
-            _playerEntryList[i].Initialize(newPlayer);
+            _playerEntryList[i].InitializeInLobby(newPlayer);
             break;
         }
 

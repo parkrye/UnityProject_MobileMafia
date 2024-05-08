@@ -120,7 +120,7 @@ public class MorningSession : Session, IChatClientListener
     {
         foreach (string channel in channels)
         {
-            Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 입장되었습니다");
+            Debug.Log($"[{GameManager.Data._playerName}] {channel} 채널에 입장되었습니다");
         }
     }
 

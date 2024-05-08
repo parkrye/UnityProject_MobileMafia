@@ -1,11 +1,12 @@
 using Photon.Realtime;
+using UnityEngine;
 
 public class PlayerEntry : SceneUI
 {
     public Player _player;
     public bool _isUsing;
 
-    public void Initialize(Player player)
+    public void InitializeInLobby(Player player)
     {
         base.Initialize();
 
@@ -45,5 +46,19 @@ public class PlayerEntry : SceneUI
         CustomProperty.SetReady(_player, isPlayerReady);
 
         SetPlayerReady(isPlayerReady);
+    }
+
+    public void InitializeInGame(Player player)
+    {
+        base.Initialize();
+
+        _player = player;
+
+        if (GetText("PlayerName", out var pnText))
+            pnText.text = _player == null ? string.Empty : _player.NickName;
+        if (GetImage("PlayerImage", out var pImage))
+            pImage.sprite = _player == null ? null : GameManager.Data._avaters[_player.GetAvatar()];
+        if (GetImage("ReadyImage", out var rImage))
+            rImage.gameObject.SetActive(false);
     }
 }
