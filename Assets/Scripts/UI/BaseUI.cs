@@ -94,35 +94,35 @@ public abstract class BaseUI : MonoBehaviourPun
 
     }
 
-    protected bool GetRect(string name, out RectTransform result)
+    public bool GetRect(string name, out RectTransform result)
     {
         if (_rects.TryGetValue(name, out result))
             return true;
         return false;
     }
 
-    protected bool GetButton(string name, out Button result)
+    public bool GetButton(string name, out Button result)
     {
         if (_buttons.TryGetValue(name, out result))
             return true;
         return false;
     }
 
-    protected bool GetText(string name, out TMP_Text result)
+    public bool GetText(string name, out TMP_Text result)
     {
         if (_texts.TryGetValue(name, out result))
             return true;
         return false;
     }
 
-    protected bool GetInputField(string name, out TMP_InputField result)
+    public bool GetInputField(string name, out TMP_InputField result)
     {
         if (_inputFields.TryGetValue(name, out result))
             return true;
         return false;
     }
 
-    protected bool GetImage(string name, out Image result)
+    public bool GetImage(string name, out Image result)
     {
         if (_images.TryGetValue(name, out result))
             return true;

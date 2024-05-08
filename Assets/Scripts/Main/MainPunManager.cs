@@ -6,12 +6,9 @@ using UnityEngine;
 
 public class MainPunManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private GameObject _morningCanvas, _eveningCanvas, _nightCanvas;
+    [SerializeField] private MainSessionManager _session;
 
-    private MainChat _chat;
-
-    private enum Time { Morning, Evening, Night}
-    private Time _time;
+    private enum Phase { Morning, Evening, Night }
 
     private Dictionary<int, bool> _aliveDictionary = new Dictionary<int, bool>();
     private List<int> _normalStudents = new List<int>();
@@ -19,14 +16,13 @@ public class MainPunManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        _chat = _morningCanvas.GetComponent<MainChat>();
 
         PhotonNetwork.LocalPlayer.SetLoad(true);
 
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        StartCoroutine(GameSettingRoutine());
+        StartCoroutine(StartGameRoutine());
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -46,11 +42,11 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         // 방장 작업 대신 수행
         if (newMasterClient.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
         {
-
+            StartCoroutine(MasterWorkRoutine());
         }
     }
 
-    int PlayerLoadCount()
+    private int PlayerLoadCount()
     {
         int loadCount = 0;
         foreach (Player player in PhotonNetwork.PlayerList)
@@ -61,7 +57,7 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         return loadCount;
     }
 
-    IEnumerator GameSettingRoutine()
+    private IEnumerator StartGameRoutine()
     {
         var waitCondition = new WaitUntil(() => PlayerLoadCount() < PhotonNetwork.PlayerList.Length);
         yield return waitCondition;
@@ -69,7 +65,7 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         GameSetting();
     }
 
-    void GameSetting()
+    private void GameSetting()
     {
         bool[] spyArray = new bool[PhotonNetwork.PlayerList.Length];
 
@@ -87,8 +83,18 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         photonView.RPC("RequestSynchronizeData", RpcTarget.AllBufferedViaServer, spyArray);
     }
 
+    private IEnumerator MasterWorkRoutine()
+    {
+        var countDown = new WaitForSeconds(10f);
+        while (true)
+        {
+            yield return countDown;
+            photonView.RPC("RequestSynchronizeTimer", RpcTarget.AllBufferedViaServer, _session.Timer);
+        }
+    }
+
     [PunRPC]
-    void RequestSynchronizeData(bool[] spyArray)
+    private void RequestSynchronizeData(bool[] spyArray)
     {
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
@@ -102,33 +108,13 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         if (_spyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber))
             GameManager.Data._playerState = GameData.PlayerState.Spy;
 
-        _chat.EnableChatServer();
-        TimeFlow(Time.Morning);
+        _session.DataSynchronize();
+        _session.FlowTime((int)Phase.Morning);
     }
 
     [PunRPC]
-    void TimeFlow(Time _time)
+    private void RequestSynchronizeTimer(float time)
     {
-        this._time = _time;
-
-        switch (this._time)
-        {
-            default:
-            case Time.Morning:
-                _morningCanvas.SetActive(true);
-                _eveningCanvas.SetActive(false);
-                _nightCanvas.SetActive(false);
-                break;
-            case Time.Evening:
-                _morningCanvas.SetActive(false);
-                _eveningCanvas.SetActive(true);
-                _nightCanvas.SetActive(false);
-                break;
-            case Time.Night:
-                _morningCanvas.SetActive(false);
-                _eveningCanvas.SetActive(false);
-                _nightCanvas.SetActive(true);
-                break;
-        }
+        _session.SetTimer(time);
     }
 }

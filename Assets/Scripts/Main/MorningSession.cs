@@ -5,7 +5,7 @@ using Photon.Pun;
 using System;
 using UnityEngine;
 
-public class MainChat : SceneUI, IChatClientListener
+public class MorningSession : SceneUI, IChatClientListener
 {
     private string[] _channels = Enum.GetNames(typeof(GameData.PlayerState));
     [SerializeField] private int _channel = 0;
@@ -49,9 +49,7 @@ public class MainChat : SceneUI, IChatClientListener
     public void AddLine(string lineString, string sender = "")
     {
         if (string.IsNullOrEmpty(lineString) || _channel < 0 || _channel > 2)
-        {
             return;
-        }
 
         if (GetText("ChatText", out var cText))
             cText.text += lineString + "\n";
@@ -150,7 +148,7 @@ public class MainChat : SceneUI, IChatClientListener
     public void InputChat(string text)
     {
         if (GetInputField("ChatInputField", out var cInputField))
-            cInputField.onSubmit.AddListener(InputChat);
+            cInputField.text = string.Empty;
 
         if (_chatClient.State != ChatState.ConnectedToFrontEnd)
             return;

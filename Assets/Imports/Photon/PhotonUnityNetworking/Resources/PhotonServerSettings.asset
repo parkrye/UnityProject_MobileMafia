@@ -42,6 +42,8 @@ MonoBehaviour:
   - SendChat
   - RequestSynchronizeData
   - TimeFlow
+  - RequestTimer
+  - RequestSynchronizeTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
