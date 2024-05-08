@@ -7,35 +7,28 @@ public class MainSessionManager : MonoBehaviour
     [SerializeField] private MainPunManager _pun;
 
     [SerializeField] private Image _timer;
-    [SerializeField] private MorningSession _morning;
-    [SerializeField] private EveningSession _evening;
-    [SerializeField] private NightSession _night;
-
-    private int _session;
+    [SerializeField] private Session[] _sessions = new Session[3];
+    private int _currentSession;
 
     public float Timer { get; private set; }
 
-    public void DataSynchronize()
+    public void Initialize()
     {
-        _morning.EnableChatServer();
-        StartCoroutine(TimerRoutine());
+        (_sessions[0] as MorningSession).EnableChatServer();
+        _currentSession = 0;
     }
 
     private IEnumerator TimerRoutine()
     {
-        Timer = 100f;
-        while (true)
+        Timer = _sessions[_currentSession].Time;
+        while (Timer > 0f)
         {
             yield return null;
             Timer -= Time.deltaTime;
             _timer.fillAmount = Timer * 0.01f;
-
-            if (Timer < 0f)
-            {
-                Timer = 100f;
-                _pun.SessionChange(_session + 1);
-            }
         }
+        Timer = 0f;
+        _pun.SessionChange(_currentSession + 1);
     }
 
     public void SetTimer(float time)
@@ -43,30 +36,21 @@ public class MainSessionManager : MonoBehaviour
         Timer = time;
     }
 
-    public void FlowTime(int session)
+    public void SessionChange(int sessionIndex)
     {
-        if (session < 0 || session > 2)
-            session = 0;
-        _session = session;
+        if (sessionIndex < 0 || sessionIndex > 2)
+            sessionIndex = 0;
 
-        switch (session)
+        if (_currentSession != sessionIndex)
         {
-            default:
-            case 0:
-                _morning.gameObject.SetActive(true);
-                _evening.gameObject.SetActive(false);
-                _night.gameObject.SetActive(false);
-                break;
-            case 1:
-                _morning.gameObject.SetActive(false);
-                _evening.gameObject.SetActive(true);
-                _night.gameObject.SetActive(false);
-                break;
-            case 2:
-                _morning.gameObject.SetActive(false);
-                _evening.gameObject.SetActive(false);
-                _night.gameObject.SetActive(true);
-                break;
+            _sessions[_currentSession].EndSession();
+            _currentSession = sessionIndex;
         }
+        for (int i = 0; i < 3; i++)
+        {
+            _sessions[i].gameObject.SetActive(i == _currentSession);
+        }
+        _sessions[_currentSession].StartSession();
+        StartCoroutine(TimerRoutine());
     }
 }

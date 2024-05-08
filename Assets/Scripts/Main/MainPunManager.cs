@@ -108,8 +108,8 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         if (_spyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber))
             GameManager.Data._playerState = GameData.PlayerState.Spy;
 
-        _session.DataSynchronize();
-        RequestSessionChange((int)Session.Morning);
+        _session.Initialize();
+        SessionChange((int)Session.Morning);
     }
 
     [PunRPC]
@@ -121,11 +121,12 @@ public class MainPunManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RequestSessionChange(int session)
     {
-        _session.FlowTime(session);
+        _session.SessionChange(session);
     }
 
     public void SessionChange(int session)
     {
-        photonView.RPC("RequestSessionChange", RpcTarget.AllBufferedViaServer, session);
+        if (PhotonNetwork.IsMasterClient)
+            photonView.RPC("RequestSessionChange", RpcTarget.AllBufferedViaServer, session);
     }
 }

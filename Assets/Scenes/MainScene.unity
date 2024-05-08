@@ -3987,7 +3987,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.0007324219}
   m_SizeDelta: {x: 0, y: -54.82113}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1501498185
@@ -4801,9 +4801,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pun: {fileID: 1765312130}
   _timer: {fileID: 1660067483}
-  _morning: {fileID: 2022531057}
-  _evening: {fileID: 106695236}
-  _night: {fileID: 188251569}
+  _sessions:
+  - {fileID: 2022531057}
+  - {fileID: 106695236}
+  - {fileID: 188251569}
 --- !u!1 &1783756266
 GameObject:
   m_ObjectHideFlags: 0

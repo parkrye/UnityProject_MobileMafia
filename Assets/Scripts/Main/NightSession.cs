@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NightSession : SceneUI
+public class NightSession : Session
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void AwakeSelf()
     {
-        
-    }
+        base.AwakeSelf();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Time = 30f;
     }
 }

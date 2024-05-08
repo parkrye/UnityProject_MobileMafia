@@ -5,7 +5,7 @@ using Photon.Pun;
 using System;
 using UnityEngine;
 
-public class MorningSession : SceneUI, IChatClientListener
+public class MorningSession : Session, IChatClientListener
 {
     private string[] _channels = Enum.GetNames(typeof(GameData.PlayerState));
     [SerializeField] private int _channel = 0;
@@ -25,6 +25,8 @@ public class MorningSession : SceneUI, IChatClientListener
             sButton.onClick.AddListener(() => ChangeChatServer(2));
 
         _chatAppSettings = PhotonNetwork.PhotonServerSettings.AppSettings.GetChatSettings();
+
+        Time = 120f;
     }
 
     void Start()
