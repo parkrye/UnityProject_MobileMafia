@@ -360,7 +360,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6302953908066915191, guid: 3c42b258e716a3b45bc81f6b4a857f5a, type: 3}
       propertyPath: m_fontSize
-      value: 120
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6302953908066915191, guid: 3c42b258e716a3b45bc81f6b4a857f5a, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6302953908066915191, guid: 3c42b258e716a3b45bc81f6b4a857f5a, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6302953908700275314, guid: 3c42b258e716a3b45bc81f6b4a857f5a, type: 3}
       propertyPath: m_Name
