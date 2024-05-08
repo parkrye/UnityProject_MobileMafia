@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class TitleSceneCanvas : SceneUI
 {
-    bool quitButtonClick;
+    private bool _quitButtonClick;
 
-    public override void Initialize()
+    protected override void AwakeSelf()
     {
-        base.Initialize();
+        _quitButtonClick = false;
 
-        quitButtonClick = false;
-
-        buttons["StartButton"].onClick.AddListener(OnStartButtonTouched);
-        buttons["QuitButton"].onClick.AddListener(OnQuitButtonTouched);
-
-        images["QuitImage"].gameObject.SetActive(false);
+        if (GetButton("StartButton", out var sButton))
+            sButton.onClick.AddListener(OnStartButtonTouched);
+        if (GetButton("QuitButton", out var qButton))
+            qButton.onClick.AddListener(OnQuitButtonTouched);
+        if (GetImage("QuitImage", out var qImage))
+            qImage.gameObject.SetActive(false);
     }
 
     void OnStartButtonTouched()
     {
-        string playerName = inputFields["NameInputField"].text;
+        var playerName = string.Empty;
+        if (GetInputField("NameInputField", out var nInputField))
+            playerName = nInputField.text;
 
         if (playerName == "")
-        {
             playerName = $"Mob {Random.Range(1000, 5000)}";
-        }
 
-        GameManager.Data.playerName = playerName;
-        GameManager.Data.playerAvatar = 0;
+        GameManager.Data._playerName = playerName;
+        GameManager.Data._playerAvatar = 0;
 
         ExitGames.Client.Photon.Hashtable props = new()
         {
@@ -39,7 +39,8 @@ public class TitleSceneCanvas : SceneUI
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-        inputFields["NameInputField"].text = "";
+        if (nInputField != null)
+            nInputField.text = "";
         PhotonNetwork.LocalPlayer.NickName = playerName;
         PhotonNetwork.ConnectUsingSettings();
         GameManager.Scene.LoadScene("LobbyScene");
@@ -47,7 +48,7 @@ public class TitleSceneCanvas : SceneUI
 
     void OnQuitButtonTouched()
     {
-        if (quitButtonClick)
+        if (_quitButtonClick)
         {
             Application.Quit();
         }
@@ -59,10 +60,12 @@ public class TitleSceneCanvas : SceneUI
 
     IEnumerator QuitButtonRoutine()
     {
-        quitButtonClick = true;
-        images["QuitImage"].gameObject.SetActive(true);
+        _quitButtonClick = true;
+        if (GetImage("QuitImage", out var qImage))
+            qImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
-        quitButtonClick = false;
-        images["QuitImage"].gameObject.SetActive(false);
+        _quitButtonClick = false;
+        if (qImage != null)
+            qImage.gameObject.SetActive(false);
     }
 }

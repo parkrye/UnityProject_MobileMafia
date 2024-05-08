@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class ResourceManager : BaseManager
 {
-    Dictionary<string, Object> resources = new Dictionary<string, Object>();
+    private Dictionary<string, Object> _resources = new Dictionary<string, Object>();
 
     public T[] LoadAll<T>(string path) where T : Object
     {
@@ -19,11 +19,11 @@ public class ResourceManager : BaseManager
     {
         string key = $"{typeof(T)}.{path}";
 
-        if (resources.ContainsKey(key))
-            return resources[key] as T;
+        if (_resources.ContainsKey(key))
+            return _resources[key] as T;
 
         T resource = Resources.Load<T>(path);
-        resources.Add(key, resource);
+        _resources.Add(key, resource);
         return resource;
     }
 
@@ -89,7 +89,7 @@ public class ResourceManager : BaseManager
         }
     }
 
-    IEnumerator DelayReleaseRoutine(GameObject go, float delay)
+    private IEnumerator DelayReleaseRoutine(GameObject go, float delay)
     {
         yield return new WaitForSeconds(delay);
         if (go)

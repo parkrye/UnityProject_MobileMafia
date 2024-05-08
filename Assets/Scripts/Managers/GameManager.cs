@@ -2,38 +2,38 @@ using UnityEngine;
 
 public class GameManager : BaseManager
 {
-    static GameManager instance;
+    private static GameManager _instance;
 
-    static PoolManager poolManager;
-    static ResourceManager resourceManager;
-    static DataManager dataManager;
-    static SceneManager sceneManager;
-    static AudioManager audioManager;
+    private static PoolManager _poolManager;
+    private static ResourceManager _resourceManager;
+    private static DataManager _dataManager;
+    private static SceneManager _sceneManager;
+    private static AudioManager _audioManager;
 
-    public static GameManager Instance { get { return instance; } }
-    public static PoolManager Pool { get { return poolManager; } }
-    public static ResourceManager Resource { get { return resourceManager; } }
-    public static DataManager Data { get { return dataManager; } }
-    public static SceneManager Scene { get { return sceneManager; } }
-    public static AudioManager Audio { get { return audioManager; } }
+    public static GameManager Instance { get { return _instance; } }
+    public static PoolManager Pool { get { return _poolManager; } }
+    public static ResourceManager Resource { get { return _resourceManager; } }
+    public static DataManager Data { get { return _dataManager; } }
+    public static SceneManager Scene { get { return _sceneManager; } }
+    public static AudioManager Audio { get { return _audioManager; } }
 
-    void Awake()
+    private void Awake()
     {
-        if (instance)
+        if (_instance)
         {
             Destroy(this);
             return;
         }
 
-        instance = this;
+        _instance = this;
         DontDestroyOnLoad(this);
         Initialize();
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
-        if (instance == this)
-            instance = null;
+        if (_instance == this)
+            _instance = null;
     }
 
     public override void Initialize()
@@ -43,31 +43,31 @@ public class GameManager : BaseManager
         GameObject resourceObj = new GameObject();
         resourceObj.name = "ResourceManager";
         resourceObj.transform.parent = transform;
-        resourceManager = resourceObj.AddComponent<ResourceManager>();
-        resourceManager.Initialize();
+        _resourceManager = resourceObj.AddComponent<ResourceManager>();
+        _resourceManager.Initialize();
 
         GameObject poolObj = new GameObject();
         poolObj.name = "PoolManager";
         poolObj.transform.parent = transform;
-        poolManager = poolObj.AddComponent<PoolManager>();
-        poolManager.Initialize();
+        _poolManager = poolObj.AddComponent<PoolManager>();
+        _poolManager.Initialize();
 
         GameObject dataObj = new GameObject();
         dataObj.name = "DataManager";
         dataObj.transform.parent = transform;
-        dataManager = dataObj.AddComponent<DataManager>();
-        dataManager.Initialize();
+        _dataManager = dataObj.AddComponent<DataManager>();
+        _dataManager.Initialize();
 
         GameObject sceneObj = new GameObject();
         sceneObj.name = "SceneManager";
         sceneObj.transform.parent = transform;
-        sceneManager = sceneObj.AddComponent<SceneManager>();
-        sceneManager.Initialize();
+        _sceneManager = sceneObj.AddComponent<SceneManager>();
+        _sceneManager.Initialize();
 
         GameObject audioObj = new GameObject();
         audioObj.name = "AudioManager";
         audioObj.transform.parent = transform;
-        audioManager = audioObj.AddComponent<AudioManager>();
-        audioManager.Initialize();
+        _audioManager = audioObj.AddComponent<AudioManager>();
+        _audioManager.Initialize();
     }
 }

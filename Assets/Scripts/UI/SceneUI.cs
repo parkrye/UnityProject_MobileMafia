@@ -1,9 +1,8 @@
 public abstract class SceneUI : BaseUI
 {
-    protected override void Awake()
+    protected override void AwakeSelf()
     {
-        base.Awake();
-        Initialize();
+
     }
 
     public virtual void Initialize()

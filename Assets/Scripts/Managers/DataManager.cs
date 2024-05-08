@@ -1,13 +1,12 @@
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class DataManager : BaseManager
 {
-    public string playerName = "";
-    public int playerAvatar = 0;
+    public string _playerName = "";
+    public int _playerAvatar = 0;
 
-    public Sprite[] AVATAR;
-    public GameData.PlayerState playerState;
+    public Sprite[] _avaters;
+    public GameData.PlayerState _playerState;
 
     public override void Initialize()
     {
@@ -15,7 +14,7 @@ public class DataManager : BaseManager
 
         Application.runInBackground = true;
 
-        AVATAR = new Sprite[5];
-        AVATAR = GameManager.Resource.LoadAll<Sprite>($"Materials/ch");
+        _avaters = new Sprite[5];
+        _avaters = GameManager.Resource.LoadAll<Sprite>($"Materials/ch");
     }
 }

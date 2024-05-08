@@ -6,104 +6,81 @@ using Photon.Pun;
 
 public abstract class BaseUI : MonoBehaviourPun
 {
-    protected Dictionary<string, RectTransform> transforms;
-    protected Dictionary<string, Button> buttons;
-    protected Dictionary<string, TMP_Text> texts;
-    protected Dictionary<string, TMP_InputField> inputFields;
-    protected Dictionary<string, Slider> sliders;
-    protected Dictionary<string, Image> images;
-    protected Dictionary<string, ToggleGroup> toggleGroups;
-    protected Dictionary<string, Toggle> toggles;
+    private Dictionary<string, RectTransform> _rects = new Dictionary<string, RectTransform>();
+    private Dictionary<string, Button> _buttons = new Dictionary<string, Button>();
+    private Dictionary<string, TMP_Text> _texts = new Dictionary<string, TMP_Text>();
+    private Dictionary<string, TMP_InputField> _inputFields = new Dictionary<string, TMP_InputField>();
+    private Dictionary<string, Image> _images = new Dictionary<string, Image>();
     //[SerializeField] protected AudioSource clickAudio;
 
-    [SerializeField] protected AudioSource buttonClickSound;
+    [SerializeField] private AudioSource _buttonClickSound;
 
-    protected virtual void Awake()
+    private void Awake()
     {
         BindingChildren();
         AddClickAudio();
+
+        AwakeSelf();
     }
 
-    protected virtual void BindingChildren()
+    protected virtual void AwakeSelf()
     {
-        transforms = new Dictionary<string, RectTransform>();
-        buttons = new Dictionary<string, Button>();
-        texts = new Dictionary<string, TMP_Text>();
-        inputFields = new Dictionary<string, TMP_InputField>();
-        sliders = new Dictionary<string, Slider>();
-        images = new Dictionary<string, Image>();
-        toggleGroups = new Dictionary<string, ToggleGroup>();
-        toggles = new Dictionary<string, Toggle>();
 
+    }
+
+    private void BindingChildren()
+    {
         RectTransform[] childrenRect = GetComponentsInChildren<RectTransform>();
         for (int i = 0; i < childrenRect.Length; i++)
         {
             string key = childrenRect[i].name;
-            if (!transforms.ContainsKey(key))
+            if (key.Contains("!"))
+                continue;
+
+            if (!_rects.ContainsKey(key))
             {
-                transforms[key] = childrenRect[i];
+                _rects[key] = childrenRect[i];
 
                 Button btn = childrenRect[i].GetComponent<Button>();
                 if (btn)
                 {
-                    if (!buttons.ContainsKey(key))
-                        buttons[key] = btn;
+                    if (!_buttons.ContainsKey(key))
+                        _buttons[key] = btn;
                 }
 
                 TMP_Text txt = childrenRect[i].GetComponent<TMP_Text>();
                 if (txt)
                 {
-                    if (!texts.ContainsKey(key))
-                        texts[key] = txt;
+                    if (!_texts.ContainsKey(key))
+                        _texts[key] = txt;
                 }
 
                 TMP_InputField input = childrenRect[i].GetComponent<TMP_InputField>();
                 if (input)
                 {
-                    if (!texts.ContainsKey(key))
-                        inputFields[key] = input;
-                }
-
-                Slider sld = childrenRect[i].GetComponent<Slider>();
-                if (sld)
-                {
-                    if (!sliders.ContainsKey(key))
-                        sliders[key] = sld;
+                    if (!_texts.ContainsKey(key))
+                        _inputFields[key] = input;
                 }
 
                 Image img = childrenRect[i].GetComponent<Image>();
                 if (img)
                 {
-                    if (!images.ContainsKey(key))
-                        images[key] = img;
-                }
-
-                ToggleGroup tgg = childrenRect[i].GetComponent<ToggleGroup>();
-                if (tgg)
-                {
-                    if (!toggleGroups.ContainsKey(key))
-                        toggleGroups[key] = tgg;
-                }
-
-                Toggle tgl = childrenRect[i].GetComponent<Toggle>();
-                if (tgl)
-                {
-                    if (!toggles.ContainsKey(key))
-                        toggles[key] = tgl;
+                    if (!_images.ContainsKey(key))
+                        _images[key] = img;
                 }
             }
         }
     }
 
-    protected virtual void AddClickAudio()
+    private void AddClickAudio()
     {
         try
         {
-            buttonClickSound = GameManager.Resource.Instantiate<AudioSource>("Audio/ButtonUISound");
-            buttonClickSound.transform.SetParent(transform, false);
-            foreach (KeyValuePair<string, Button> button in buttons)
+            _buttonClickSound = GameManager.Resource.Instantiate<AudioSource>("Audio/ButtonUISound");
+            _buttonClickSound.transform.SetParent(transform, false);
+            foreach (KeyValuePair<string, Button> button in _buttons)
             {
-                button.Value.onClick.AddListener(() => { buttonClickSound.Play(); });
+                button.Value.onClick.AddListener(() => { _buttonClickSound.Play(); });
             }
         }
         catch
@@ -115,5 +92,40 @@ public abstract class BaseUI : MonoBehaviourPun
     public virtual void CloseUI()
     {
 
+    }
+
+    protected bool GetRect(string name, out RectTransform result)
+    {
+        if (_rects.TryGetValue(name, out result))
+            return true;
+        return false;
+    }
+
+    protected bool GetButton(string name, out Button result)
+    {
+        if (_buttons.TryGetValue(name, out result))
+            return true;
+        return false;
+    }
+
+    protected bool GetText(string name, out TMP_Text result)
+    {
+        if (_texts.TryGetValue(name, out result))
+            return true;
+        return false;
+    }
+
+    protected bool GetInputField(string name, out TMP_InputField result)
+    {
+        if (_inputFields.TryGetValue(name, out result))
+            return true;
+        return false;
+    }
+
+    protected bool GetImage(string name, out Image result)
+    {
+        if (_images.TryGetValue(name, out result))
+            return true;
+        return false;
     }
 }

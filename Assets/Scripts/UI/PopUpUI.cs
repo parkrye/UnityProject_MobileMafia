@@ -1,8 +1,8 @@
 public class PopUpUI : BaseUI
 {
-    protected override void Awake()
+    protected override void AwakeSelf()
     {
-        base.Awake();
+
     }
 
     public override void CloseUI()

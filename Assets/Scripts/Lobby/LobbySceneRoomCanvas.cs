@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class LobbySceneRoomCanvas : SceneUI
 {
-    [SerializeField] PlayerEntry[] playerEntryList;
+    [SerializeField] private PlayerEntry[] _playerEntryList;
 
-    protected override void Awake()
+    protected override void AwakeSelf()
     {
-        base.Awake();
+        if (GetButton("ReadyButton", out var rButton))
+            rButton.onClick.AddListener(OnReadyButtonTouched);
+        if (GetButton("QuitButton", out var qButton))
+            qButton.onClick.AddListener(OnLeaveRoomTouched);
 
-        buttons["ReadyButton"].onClick.AddListener(OnReadyButtonTouched);
-        buttons["QuitButton"].onClick.AddListener(OnLeaveRoomTouched);
-
-        playerEntryList = GetComponentsInChildren<PlayerEntry>();
+        _playerEntryList = GetComponentsInChildren<PlayerEntry>();
     }
 
     void OnEnable()
@@ -22,7 +22,7 @@ public class LobbySceneRoomCanvas : SceneUI
 
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
-            playerEntryList[i].Initialize(PhotonNetwork.PlayerList[i]);
+            _playerEntryList[i].Initialize(PhotonNetwork.PlayerList[i]);
         }
 
         PhotonNetwork.LocalPlayer.SetReady(false);
@@ -43,10 +43,10 @@ public class LobbySceneRoomCanvas : SceneUI
     {
         for (int i = 0; i < 8; i++)
         {
-            if (playerEntryList[i].isUsing)
+            if (_playerEntryList[i]._isUsing)
                 continue;
 
-            playerEntryList[i].Initialize(newPlayer);
+            _playerEntryList[i].Initialize(newPlayer);
             break;
         }
 
@@ -59,12 +59,12 @@ public class LobbySceneRoomCanvas : SceneUI
     {
         for (int i = 0; i < 8; i++)
         {
-            if (!playerEntryList[i].isUsing)
+            if (!_playerEntryList[i]._isUsing)
                 continue;
 
-            if (playerEntryList[i].player.Equals(leftPlayer))
+            if (_playerEntryList[i]._player.Equals(leftPlayer))
             {
-                playerEntryList[i].ResetEntry();
+                _playerEntryList[i].ResetEntry();
                 break;
             }
         }
@@ -77,12 +77,12 @@ public class LobbySceneRoomCanvas : SceneUI
     {
         for (int i = 0; i < 8; i++)
         {
-            if (!playerEntryList[i].isUsing)
+            if (!_playerEntryList[i]._isUsing)
                 continue;
 
-            if (playerEntryList[i].player.Equals(targetPlayer))
+            if (_playerEntryList[i]._player.Equals(targetPlayer))
             {
-                playerEntryList[i].SetPlayerReady(targetPlayer.GetReady());
+                _playerEntryList[i].SetPlayerReady(targetPlayer.GetReady());
                 break;
             }
         }
@@ -127,12 +127,12 @@ public class LobbySceneRoomCanvas : SceneUI
     {
         for (int i = 0; i < 8; i++)
         {
-            if (!playerEntryList[i].isUsing)
+            if (!_playerEntryList[i]._isUsing)
                 continue;
 
-            if (playerEntryList[i].player.Equals(PhotonNetwork.LocalPlayer))
+            if (_playerEntryList[i]._player.Equals(PhotonNetwork.LocalPlayer))
             {
-                playerEntryList[i].Ready();
+                _playerEntryList[i].Ready();
                 break;
             }
         }
@@ -145,7 +145,7 @@ public class LobbySceneRoomCanvas : SceneUI
 
     void ResetAllEntries()
     {
-        foreach (PlayerEntry entry in playerEntryList)
+        foreach (PlayerEntry entry in _playerEntryList)
         {
             entry.ResetEntry();
         }

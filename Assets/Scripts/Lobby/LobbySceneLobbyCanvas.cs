@@ -1,17 +1,20 @@
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine;
 
 public class LobbySceneLobbyCanvas : SceneUI
-{    protected override void Awake()
+{    
+    protected override void AwakeSelf()
     {
-        base.Awake();
-
-        texts["NameText"].text = GameManager.Data.playerName;
-        buttons["JoinButton"].onClick.AddListener(OnRandomMatchingButtonTouched);
-        buttons["BackButton"].onClick.AddListener(OnLeaveLobbyButtonTouched);
-        buttons["UpAvatarButton"].onClick.AddListener(OnUpAvatarButtonTouched);
-        buttons["DownAvatarButton"].onClick.AddListener(OnDownAvatarButtonTouched);
+        if (GetText("NameText", out var nText))
+            nText.text = GameManager.Data._playerName;
+        if (GetButton("JoinButton", out var jButton))
+            jButton.onClick.AddListener(OnRandomMatchingButtonTouched);
+        if (GetButton("BackButton", out var bButton))
+            bButton.onClick.AddListener(OnLeaveLobbyButtonTouched);
+        if (GetButton("UpAvatarButton", out var uaButton))
+            uaButton.onClick.AddListener(OnUpAvatarButtonTouched);
+        if (GetButton("DownAvatarButton", out var daButton))
+            daButton.onClick.AddListener(OnDownAvatarButtonTouched);
     }
 
     void OnEnable()
@@ -36,23 +39,24 @@ public class LobbySceneLobbyCanvas : SceneUI
 
     void OnUpAvatarButtonTouched()
     {
-        GameManager.Data.playerAvatar--;
-        if (GameManager.Data.playerAvatar < 0)
-            GameManager.Data.playerAvatar = 4;
+        GameManager.Data._playerAvatar--;
+        if (GameManager.Data._playerAvatar < 0)
+            GameManager.Data._playerAvatar = 4;
         ChangeAvatarImage();
     }
 
     void OnDownAvatarButtonTouched()
     {
-        GameManager.Data.playerAvatar++;
-        if (GameManager.Data.playerAvatar > 4)
-            GameManager.Data.playerAvatar = 0;
+        GameManager.Data._playerAvatar++;
+        if (GameManager.Data._playerAvatar > 4)
+            GameManager.Data._playerAvatar = 0;
         ChangeAvatarImage();
     }
 
     void ChangeAvatarImage()
     {
-        images["AvatarImage"].sprite = GameManager.Data.AVATAR[GameManager.Data.playerAvatar];
-        PhotonNetwork.LocalPlayer.SetAvatar(GameManager.Data.playerAvatar);
+        if (GetImage("AvatarImage", out var aImage))
+            aImage.sprite = GameManager.Data._avaters[GameManager.Data._playerAvatar];
+        PhotonNetwork.LocalPlayer.SetAvatar(GameManager.Data._playerAvatar);
     }
 }

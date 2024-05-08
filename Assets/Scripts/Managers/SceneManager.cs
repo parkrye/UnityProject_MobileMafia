@@ -4,8 +4,8 @@ using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public class SceneManager : BaseManager
 {
-    BaseScene curScene;
-    LoadingUI loadingUI;
+    private BaseScene _curScene;
+    private LoadingUI _loadingUI;
 
     public bool ReadyToPlay { get; private set; }
 
@@ -13,18 +13,18 @@ public class SceneManager : BaseManager
     {
         base.Initialize();
 
-        loadingUI = GameManager.Pool.GetUI<LoadingUI>("UI/LoadingUI");
-        GameManager.Pool.ReleaseUI(loadingUI);
+        _loadingUI = GameManager.Pool.GetUI<LoadingUI>("UI/LoadingUI");
+        GameManager.Pool.ReleaseUI(_loadingUI);
     }
 
     public BaseScene CurScene
     {
         get
         {
-            if (!curScene)
-                curScene = GameObject.FindObjectOfType<BaseScene>();
+            if (!_curScene)
+                _curScene = GameObject.FindObjectOfType<BaseScene>();
 
-            return curScene;
+            return _curScene;
         }
     }
 
@@ -33,10 +33,10 @@ public class SceneManager : BaseManager
         StartCoroutine(LoadingRoutine(sceneName));
     }
 
-    IEnumerator LoadingRoutine(string sceneName)
+    private IEnumerator LoadingRoutine(string sceneName)
     {
         ReadyToPlay = false;
-        GameManager.Pool.GetUI(loadingUI);
+        GameManager.Pool.GetUI(_loadingUI);
         yield return new WaitForSeconds(1f);
         AsyncOperation oper = UnitySceneManager.LoadSceneAsync(sceneName);
         while (!oper.isDone)
@@ -54,7 +54,7 @@ public class SceneManager : BaseManager
         }
 
         yield return new WaitForSeconds(1f);
-        GameManager.Pool.ReleaseUI(loadingUI);
+        GameManager.Pool.ReleaseUI(_loadingUI);
         ReadyToPlay = true;
     }
 }

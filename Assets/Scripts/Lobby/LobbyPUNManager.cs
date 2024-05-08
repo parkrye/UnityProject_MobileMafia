@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class LobbyPUNManager : MonoBehaviourPunCallbacks
 {
-    public enum Panel { Lobby, Room, Login }
+    private enum Panel { Lobby, Room, Login }
 
-    [SerializeField] Panel curPanel;
+    [SerializeField] private Panel _curPanel;
 
-    [SerializeField] LobbySceneLobbyCanvas lobbyCanvas;
-    [SerializeField] LobbySceneRoomCanvas roomCanvas;
+    [SerializeField] private LobbySceneLobbyCanvas _lobbyCanvas;
+    [SerializeField] private LobbySceneRoomCanvas _roomCanvas;
 
     void Awake()
     {
-        curPanel = Panel.Lobby;
+        _curPanel = Panel.Lobby;
     }
 
     void Start()
@@ -60,7 +60,7 @@ public class LobbyPUNManager : MonoBehaviourPunCallbacks
         SetActivePanel(Panel.Room);
 
         PhotonNetwork.AutomaticallySyncScene = true;
-        roomCanvas.UpdateRoomState();
+        _roomCanvas.UpdateRoomState();
     }
 
     public override void OnLeftRoom()
@@ -72,22 +72,22 @@ public class LobbyPUNManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        roomCanvas.PlayerEnterRoom(newPlayer);
+        _roomCanvas.PlayerEnterRoom(newPlayer);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        roomCanvas.PlayerLeftRoom(otherPlayer);
+        _roomCanvas.PlayerLeftRoom(otherPlayer);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        roomCanvas.MasterClientSwitched(newMasterClient);
+        _roomCanvas.MasterClientSwitched(newMasterClient);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        roomCanvas.PlayerPropertiesUpdate(targetPlayer, changedProps);
+        _roomCanvas.PlayerPropertiesUpdate(targetPlayer, changedProps);
     }
 
     public override void OnJoinedLobby()
@@ -108,9 +108,9 @@ public class LobbyPUNManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        curPanel = panel;
+        _curPanel = panel;
 
-        roomCanvas.gameObject?.SetActive(curPanel == Panel.Room);
-        lobbyCanvas.gameObject.SetActive(curPanel == Panel.Lobby);
+        _roomCanvas.gameObject?.SetActive(_curPanel == Panel.Room);
+        _lobbyCanvas.gameObject.SetActive(_curPanel == Panel.Lobby);
     }
 }

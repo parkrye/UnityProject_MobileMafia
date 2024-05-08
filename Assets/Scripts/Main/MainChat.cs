@@ -7,60 +7,57 @@ using UnityEngine;
 
 public class MainChat : SceneUI, IChatClientListener
 {
-    string[] channels;
-    [SerializeField] int channel;
+    private string[] _channels = Enum.GetNames(typeof(GameData.PlayerState));
+    [SerializeField] private int _channel = 0;
+    [SerializeField] private int _historyLengthToFetch;
+    private ChatClient _chatClient;
+    private ChatAppSettings _chatAppSettings;
 
-    [SerializeField] int HistoryLengthToFetch;
-
-    ChatClient chatClient;
-    ChatAppSettings chatAppSettings;
-
-    protected override void Awake()
+    protected override void AwakeSelf()
     {
-        base.Awake();
+        if (GetInputField("ChatInputField", out var cInputField))
+            cInputField.onSubmit.AddListener(InputChat);
+        if (GetButton("EveryoneButton", out var eButton))
+            eButton.onClick.AddListener(() => ChangeChatServer(0));
+        if (GetButton("DeadmanButton", out var dButton))
+            dButton.onClick.AddListener(() => ChangeChatServer(1));
+        if (GetButton("SpyButton", out var sButton))
+            sButton.onClick.AddListener(() => ChangeChatServer(2));
 
-        channels = Enum.GetNames(typeof(GameData.PlayerState));
-        channel = 0;
-
-        inputFields["ChatInputField"].onSubmit.AddListener(InputChat);
-        buttons["EveryoneButton"].onClick.AddListener(() => ChangeChatServer(0));
-        buttons["DeadmanButton"].onClick.AddListener(() => ChangeChatServer(1));
-        buttons["SpyButton"].onClick.AddListener(() => ChangeChatServer(2));
-
-        chatAppSettings = PhotonNetwork.PhotonServerSettings.AppSettings.GetChatSettings();
+        _chatAppSettings = PhotonNetwork.PhotonServerSettings.AppSettings.GetChatSettings();
     }
 
     void Start()
     {
-        chatClient = new ChatClient(this);
-        chatClient.UseBackgroundWorkerForSending = true;
-        chatClient.AuthValues = new AuthenticationValues(GameManager.Data.playerName);
-        chatClient.ConnectUsingSettings(chatAppSettings);
+        _chatClient = new ChatClient(this);
+        _chatClient.UseBackgroundWorkerForSending = true;
+        _chatClient.AuthValues = new AuthenticationValues(GameManager.Data._playerName);
+        _chatClient.ConnectUsingSettings(_chatAppSettings);
         
     }
 
     void OnDestroy()
     {
-        chatClient.Disconnect();
+        _chatClient.Disconnect();
     }
 
     void OnApplicationQuit()
     {
-        chatClient.Disconnect();
+        _chatClient.Disconnect();
     }
 
     public void AddLine(string lineString, string sender = "")
     {
-        if (string.IsNullOrEmpty(lineString) || channel < 0 || channel > 2)
+        if (string.IsNullOrEmpty(lineString) || _channel < 0 || _channel > 2)
         {
             return;
         }
 
-        texts["ChatText"].text += lineString + "\n";
+        if (GetText("ChatText", out var cText))
+            cText.text += lineString + "\n";
 
-        ChatChannel chatChannel = null;
-        bool found = this.chatClient.TryGetChannel(channels[channel], out chatChannel);
-        chatChannel.Add(sender, lineString, 0); //TODO: how to use msgID?
+        if (_chatClient.TryGetChannel(_channels[_channel], out var chatChannel))
+            chatChannel.Add(sender, lineString, 0); //TODO: how to use msgID?
     }
 
     public void DebugReturn(DebugLevel level, string message)
@@ -86,26 +83,26 @@ public class MainChat : SceneUI, IChatClientListener
 
     public void OnConnected()
     {
-        if (channels != null && channels.Length > 0)
+        if (_channels != null && _channels.Length > 0)
         {
-            chatClient.Subscribe(channels, HistoryLengthToFetch);
+            _chatClient.Subscribe(_channels, _historyLengthToFetch);
         }
 
-        Debug.Log($"[{GameManager.Data.playerName}] 채팅 서버에 연결되었습니다");
+        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 연결되었습니다");
 
-        chatClient.SetOnlineStatus(ChatUserStatus.Online);
+        _chatClient.SetOnlineStatus(ChatUserStatus.Online);
     }
 
     public void OnDisconnected()
     {
-        Debug.Log($"[{GameManager.Data.playerName}] 채팅 서버에 연결이 끊겼습니다");
+        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 연결이 끊겼습니다");
     }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
-        if (channelName.Equals(channels[channel]))
+        if (channelName.Equals(_channels[_channel]))
         {
-            ShowChannel(channels[channel]);
+            ShowChannel(_channels[_channel]);
         }
     }
 
@@ -123,60 +120,68 @@ public class MainChat : SceneUI, IChatClientListener
     {
         foreach (string channel in channels)
         {
-            Debug.Log($"[{GameManager.Data.playerName}] 채팅 서버에 입장되었습니다");
+            Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 입장되었습니다");
         }
     }
 
     public void OnUnsubscribed(string[] channels)
     {
-        Debug.Log($"[{GameManager.Data.playerName}] 채팅 서버에 퇴장되었습니다");
+        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 퇴장되었습니다");
     }
 
     public void OnUserSubscribed(string channel, string user)
     {
-        Debug.Log($"[{GameManager.Data.playerName}] 채팅 서버에 입장되었습니다");
+        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 입장되었습니다");
     }
 
     public void OnUserUnsubscribed(string channel, string user)
     {
-        Debug.Log($"[{GameManager.Data.playerName}] 채팅 서버에 퇴장되었습니다");
+        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 퇴장되었습니다");
     }
 
     void Update()
     {
-        if (chatClient == null)
+        if (_chatClient == null)
             return;
 
-        chatClient.Service();
+        _chatClient.Service();
     }
 
     public void InputChat(string text)
     {
-        inputFields["ChatInputField"].text = "";
+        if (GetInputField("ChatInputField", out var cInputField))
+            cInputField.onSubmit.AddListener(InputChat);
 
-        if (chatClient.State != ChatState.ConnectedToFrontEnd)
+        if (_chatClient.State != ChatState.ConnectedToFrontEnd)
             return;
 
-        AddLine($"{GameManager.Data.playerName}: {text}", GameManager.Data.playerName);
+        AddLine($"{GameManager.Data._playerName}: {text}", GameManager.Data._playerName);
     }
 
     public void EnableChatServer()
     {
-        if (GameManager.Data.playerState == GameData.PlayerState.Deadman)
-            buttons["DeadmanButton"].interactable = true;
-        if (GameManager.Data.playerState == GameData.PlayerState.Spy)
-            buttons["SpyButton"].interactable = true;
+        if (GameManager.Data._playerState == GameData.PlayerState.Deadman)
+        {
+            if (GetButton("DeadmanButton", out var dButton))
+                dButton.interactable = true;
+        }
+        if (GameManager.Data._playerState == GameData.PlayerState.Spy)
+        {
+            if (GetButton("SpyButton", out var sButton))
+                sButton.interactable = true;
+        }
     }
 
     void ChangeChatServer(int serverNum)
     {
-        channel = serverNum;
+        _channel = serverNum;
 
         ChatChannel chatChannel = null;
-        bool found = this.chatClient.TryGetChannel(channels[channel], out chatChannel);
-        texts["ChatText"].text = chatChannel.ToStringMessages();
+        bool found = this._chatClient.TryGetChannel(_channels[_channel], out chatChannel);
+        if (GetText("ChatText", out var cText))
+            cText.text = chatChannel.ToStringMessages();
 
-        ShowChannel(channels[channel]);
+        ShowChannel(_channels[_channel]);
     }
     public void ShowChannel(string channelName)
     {
@@ -186,7 +191,7 @@ public class MainChat : SceneUI, IChatClientListener
         }
 
         ChatChannel channel = null;
-        bool found = this.chatClient.TryGetChannel(channelName, out channel);
+        bool found = this._chatClient.TryGetChannel(channelName, out channel);
         if (!found)
         {
             Debug.Log("ShowChannel failed to find channels: " + channelName);

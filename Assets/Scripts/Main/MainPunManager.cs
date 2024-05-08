@@ -6,24 +6,20 @@ using UnityEngine;
 
 public class MainPunManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] GameObject morningCanvas, eveningCanvas, nightCanvas;
+    [SerializeField] private GameObject _morningCanvas, _eveningCanvas, _nightCanvas;
 
-    MainChat chat;
+    private MainChat _chat;
 
-    enum Time { Morning, Evening, Night}
-    Time time;
+    private enum Time { Morning, Evening, Night}
+    private Time _time;
 
-    Dictionary<int, bool> aliveDictionary;
-    List<int> normalStudents;
-    List<int> spyStudents;
+    private Dictionary<int, bool> _aliveDictionary = new Dictionary<int, bool>();
+    private List<int> _normalStudents = new List<int>();
+    private List<int> _spyStudents = new List<int>();
 
     void Awake()
     {
-        aliveDictionary = new Dictionary<int, bool>();
-        normalStudents = new List<int>();
-        spyStudents = new List<int>();
-
-        chat = morningCanvas.GetComponent<MainChat>();
+        _chat = _morningCanvas.GetComponent<MainChat>();
 
         PhotonNetwork.LocalPlayer.SetLoad(true);
 
@@ -96,42 +92,42 @@ public class MainPunManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
-            aliveDictionary.Add(i, true);
+            _aliveDictionary.Add(i, true);
             if (spyArray[i])
-                spyStudents.Add(i);
+                _spyStudents.Add(i);
             else
-                normalStudents.Add(i);
+                _normalStudents.Add(i);
         }
 
-        if (spyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber))
-            GameManager.Data.playerState = GameData.PlayerState.Spy;
+        if (_spyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber))
+            GameManager.Data._playerState = GameData.PlayerState.Spy;
 
-        chat.EnableChatServer();
+        _chat.EnableChatServer();
         TimeFlow(Time.Morning);
     }
 
     [PunRPC]
     void TimeFlow(Time _time)
     {
-        time = _time;
+        this._time = _time;
 
-        switch (time)
+        switch (this._time)
         {
             default:
             case Time.Morning:
-                morningCanvas.SetActive(true);
-                eveningCanvas.SetActive(false);
-                nightCanvas.SetActive(false);
+                _morningCanvas.SetActive(true);
+                _eveningCanvas.SetActive(false);
+                _nightCanvas.SetActive(false);
                 break;
             case Time.Evening:
-                morningCanvas.SetActive(false);
-                eveningCanvas.SetActive(true);
-                nightCanvas.SetActive(false);
+                _morningCanvas.SetActive(false);
+                _eveningCanvas.SetActive(true);
+                _nightCanvas.SetActive(false);
                 break;
             case Time.Night:
-                morningCanvas.SetActive(false);
-                eveningCanvas.SetActive(false);
-                nightCanvas.SetActive(true);
+                _morningCanvas.SetActive(false);
+                _eveningCanvas.SetActive(false);
+                _nightCanvas.SetActive(true);
                 break;
         }
     }
