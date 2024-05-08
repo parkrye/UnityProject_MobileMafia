@@ -2481,6 +2481,10 @@ PrefabInstance:
       propertyPath: m_MatchWidthOrHeight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7989013652042519667, guid: 0ce3f3054e5628d4da351695e2018cc1, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8789220593245384657, guid: 0ce3f3054e5628d4da351695e2018cc1, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2760,7 +2764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaff8b9cbb162e144a6e1468f35740b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonClickSound: {fileID: 0}
+  _buttonClickSound: {fileID: 0}
 --- !u!1 &1216680975
 GameObject:
   m_ObjectHideFlags: 0
@@ -4068,8 +4072,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece18ff21ccc2b747acebf4919c125e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonClickSound: {fileID: 0}
-  playerEntryList: []
+  _buttonClickSound: {fileID: 0}
+  _playerEntryList: []
 --- !u!224 &1761680195
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4121,9 +4125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2505a7b6e83e0d14581e7138f9f93201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curPanel: 0
-  lobbyCanvas: {fileID: 1182603978}
-  roomCanvas: {fileID: 1761680194}
+  _curPanel: 0
+  _lobbyCanvas: {fileID: 1182603978}
+  _roomCanvas: {fileID: 1761680194}
 --- !u!4 &1765312128
 Transform:
   m_ObjectHideFlags: 0

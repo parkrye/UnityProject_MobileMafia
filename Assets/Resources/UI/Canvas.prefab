@@ -150,4 +150,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90635aeb2446a0c4a9e47985c47b1f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AreaVector: 1
+  AreaVector: 2
