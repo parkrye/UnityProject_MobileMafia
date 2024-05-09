@@ -161,6 +161,15 @@ public class MorningSession : Session, IChatClientListener
         if (_chatClient.State != ChatState.ConnectedToFrontEnd)
             return;
 
+        if (GameManager.Data._playerState == GameData.PlayerState.Deadman)
+        {
+            if (_chatClient.TryGetChannel(_channels[_channel], out var chatChannel))
+            {
+                if(chatChannel.Name.Equals(GameData.PlayerState.Deadman.ToString()))
+                    AddLine(text);
+            }
+            return;
+        }
         AddLine(text);
     }
 
@@ -170,6 +179,8 @@ public class MorningSession : Session, IChatClientListener
         {
             if (GetButton("DeadmanButton", out var dButton))
                 dButton.interactable = true;
+            if (GetButton("SpyButton", out var sButton))
+                sButton.interactable = true;
         }
         if (GameManager.Data._playerState == GameData.PlayerState.Spy)
         {

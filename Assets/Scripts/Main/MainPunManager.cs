@@ -16,7 +16,6 @@ public class MainPunManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-
         PhotonNetwork.LocalPlayer.SetLoad(true);
 
         if (!PhotonNetwork.IsMasterClient)
@@ -126,7 +125,9 @@ public class MainPunManager : MonoBehaviourPunCallbacks
 
     public void SessionChange(int session)
     {
-        if (PhotonNetwork.IsMasterClient)
-            photonView.RPC("RequestSessionChange", RpcTarget.AllBufferedViaServer, session);
+        if (PhotonNetwork.IsMasterClient == false)
+            return;
+
+        photonView.RPC("RequestSessionChange", RpcTarget.AllBufferedViaServer, session);
     }
 }
