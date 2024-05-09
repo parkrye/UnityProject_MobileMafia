@@ -29,7 +29,7 @@ public class MorningSession : Session, IChatClientListener
         Time = 120f;
     }
 
-    void Start()
+    private void Start()
     {
         _chatClient = new ChatClient(this);
         _chatClient.UseBackgroundWorkerForSending = true;
@@ -38,14 +38,22 @@ public class MorningSession : Session, IChatClientListener
         
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         _chatClient.Disconnect();
     }
 
-    void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
         _chatClient.Disconnect();
+    }
+
+    public override void StartSession()
+    {
+        base.StartSession();
+
+        if (GetText("ChatText", out var cText))
+            cText.text += "새 모임이 시작되었습니다\n";
     }
 
     public void AddLine(string lineString)

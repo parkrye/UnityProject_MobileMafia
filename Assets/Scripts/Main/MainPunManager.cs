@@ -14,6 +14,7 @@ public class MainPunManager : MonoBehaviourPunCallbacks
     private bool[] _aliveArray;
     private List<int> _normalStudents = new List<int>();
     private List<int> _spyStudents = new List<int>();
+    public List<int> SpyStudents { get { return _spyStudents; } }
 
     void Awake()
     {

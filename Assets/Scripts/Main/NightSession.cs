@@ -10,4 +10,18 @@ public class NightSession : Session
 
         Time = 30f;
     }
+
+    public override void StartSession()
+    {
+        base.StartSession();
+
+
+    }
+
+    public override void EndSession(int mostVotedIndex)
+    {
+        base.EndSession(mostVotedIndex);
+
+
+    }
 }

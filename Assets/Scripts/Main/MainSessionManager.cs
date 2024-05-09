@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.VFX;
 
 public class MainSessionManager : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class MainSessionManager : MonoBehaviour
 
     [SerializeField] private Image _timer;
     [SerializeField] private Session[] _sessions = new Session[3];
+    [SerializeField] private Image _blockImage;
     private int _currentSession;
 
     public float Timer { get; private set; }
@@ -71,13 +71,34 @@ public class MainSessionManager : MonoBehaviour
 
         if (_currentSession != sessionIndex)
         {
-            _sessions[_currentSession].EndSession();
+            _sessions[_currentSession].EndSession(_pun.GetMostVoted());
             _currentSession = sessionIndex;
+        }
+
+        if (_currentSession == 0)
+        {
+            _blockImage.gameObject.SetActive(false);
+        }
+        else
+        {
             for (int i = 0; i < _playerEntryList.Length; i++)
             {
                 _playerEntryList[i].SetCountText(0);
             }
+
+            if (_currentSession == 1)
+            {
+
+            }
+            else if (_currentSession == 2)
+            {
+                if (_pun.SpyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber - 1))
+                    _blockImage.gameObject.SetActive(false);
+                else
+                    _blockImage.gameObject.SetActive(true);
+            }
         }
+
         for (int i = 0; i < 3; i++)
         {
             _sessions[i].gameObject.SetActive(i == _currentSession);
