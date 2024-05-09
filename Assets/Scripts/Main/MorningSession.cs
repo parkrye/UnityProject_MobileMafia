@@ -60,6 +60,7 @@ public class MorningSession : Session, IChatClientListener
         {
             _chatClient.PublishMessage(chatChannel.Name, lineString);
             ShowChatMessages();
+            ShowChannel(_channels[_channel]);
         }
     }
 
@@ -110,6 +111,8 @@ public class MorningSession : Session, IChatClientListener
         //        ShowChannel(_channels[_channel]);
         //    }
         //}
+        ShowChatMessages();
+        ShowChannel(_channels[_channel]);
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName)
@@ -194,7 +197,6 @@ public class MorningSession : Session, IChatClientListener
         _channel = serverNum;
 
         ShowChatMessages();
-
         ShowChannel(_channels[_channel]);
     }
 
