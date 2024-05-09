@@ -56,7 +56,9 @@ public class MainSessionManager : MonoBehaviour
             _timer.fillAmount = Timer / _sessions[_currentSession].Time;
         }
         Timer = 0f;
-        _pun.SessionChange(_currentSession + 1);
+
+        if (PhotonNetwork.IsMasterClient)
+            _pun.SessionChange(_currentSession + 1);
     }
 
     public void SetTimer(float time)
@@ -66,17 +68,20 @@ public class MainSessionManager : MonoBehaviour
 
     public void SessionChange(int sessionIndex)
     {
-        if (sessionIndex < 0 || sessionIndex > 2)
-            sessionIndex = 0;
-
         if (_currentSession != sessionIndex)
         {
-            _sessions[_currentSession].EndSession(_pun.GetMostVoted());
+            _sessions[_currentSession].EndSession();
+            for (int i = 0; i < _pun.AliveStudents.Length; i++)
+            {
+                if (_pun.AliveStudents[i] == false)
+                    _playerEntryList[i].OnDead();
+            }
             _currentSession = sessionIndex;
         }
 
         if (_currentSession == 0)
         {
+            (_sessions[_currentSession] as MorningSession).EnableChatServer();
             _blockImage.gameObject.SetActive(false);
         }
         else
@@ -86,11 +91,7 @@ public class MainSessionManager : MonoBehaviour
                 _playerEntryList[i].SetCountText(0);
             }
 
-            if (_currentSession == 1)
-            {
-
-            }
-            else if (_currentSession == 2)
+            if (_currentSession == 2)
             {
                 if (_pun.SpyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber - 1))
                     _blockImage.gameObject.SetActive(false);
@@ -98,7 +99,6 @@ public class MainSessionManager : MonoBehaviour
                     _blockImage.gameObject.SetActive(true);
             }
         }
-
         for (int i = 0; i < 3; i++)
         {
             _sessions[i].gameObject.SetActive(i == _currentSession);

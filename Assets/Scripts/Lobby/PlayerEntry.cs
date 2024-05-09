@@ -18,7 +18,7 @@ public class PlayerEntry : SceneUI
         if (GetText("PlayerName", out var pnText))
             pnText.text = _player.NickName;
         if (GetImage("PlayerImage", out var pImage))
-            pImage.sprite = GameManager.Data._avaters[_player.GetAvatar()];
+            pImage.sprite = GameManager.Data.Avaters[_player.GetAvatar()];
 
         SetPlayerReady(CustomProperty.GetReady(_player));
 
@@ -62,13 +62,14 @@ public class PlayerEntry : SceneUI
         if (GetText("PlayerName", out var pnText))
             pnText.text = _player == null ? string.Empty : _player.NickName;
         if (GetImage("PlayerImage", out var pImage))
-            pImage.sprite = _player == null ? null : GameManager.Data._avaters[_player.GetAvatar()];
+            pImage.sprite = _player == null ? null : GameManager.Data.Avaters[_player.GetAvatar()];
         if (GetImage("ReadyImage", out var rImage))
             rImage.gameObject.SetActive(false);
         if (GetButton("Button", out var button))
         {
             button.enabled = true;
-            button.onClick.AddListener(() => _voteEvent?.Invoke(_player.ActorNumber - 1));
+            if (_player != null)
+                button.onClick.AddListener(() => _voteEvent?.Invoke(_player.ActorNumber - 1));
         }
     }
 

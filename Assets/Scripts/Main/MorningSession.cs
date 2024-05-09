@@ -26,14 +26,14 @@ public class MorningSession : Session, IChatClientListener
 
         _chatAppSettings = PhotonNetwork.PhotonServerSettings.AppSettings.GetChatSettings();
 
-        Time = 120f;
+        Time = 60f;
     }
 
     private void Start()
     {
         _chatClient = new ChatClient(this);
         _chatClient.UseBackgroundWorkerForSending = true;
-        _chatClient.AuthValues = new AuthenticationValues(GameManager.Data._playerName);
+        _chatClient.AuthValues = new AuthenticationValues(GameManager.Data.PlayerName);
         _chatClient.ConnectUsingSettings(_chatAppSettings);
         
     }
@@ -100,14 +100,14 @@ public class MorningSession : Session, IChatClientListener
             _chatClient.Subscribe(_channels, _historyLengthToFetch);
         }
 
-        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 연결되었습니다");
+        Debug.Log($"[{GameManager.Data.PlayerName}] 채팅 서버에 연결되었습니다");
 
         _chatClient.SetOnlineStatus(ChatUserStatus.Online);
     }
 
     public void OnDisconnected()
     {
-        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 연결이 끊겼습니다");
+        Debug.Log($"[{GameManager.Data.PlayerName}] 채팅 서버에 연결이 끊겼습니다");
     }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
@@ -137,23 +137,23 @@ public class MorningSession : Session, IChatClientListener
     {
         foreach (string channel in channels)
         {
-            Debug.Log($"[{GameManager.Data._playerName}] {channel} 채널에 입장되었습니다");
+            Debug.Log($"[{GameManager.Data.PlayerName}] {channel} 채널에 입장되었습니다");
         }
     }
 
     public void OnUnsubscribed(string[] channels)
     {
-        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 퇴장되었습니다");
+        Debug.Log($"[{GameManager.Data.PlayerName}] 채팅 서버에 퇴장되었습니다");
     }
 
     public void OnUserSubscribed(string channel, string user)
     {
-        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 입장되었습니다");
+        Debug.Log($"[{GameManager.Data.PlayerName}] 채팅 서버에 입장되었습니다");
     }
 
     public void OnUserUnsubscribed(string channel, string user)
     {
-        Debug.Log($"[{GameManager.Data._playerName}] 채팅 서버에 퇴장되었습니다");
+        Debug.Log($"[{GameManager.Data.PlayerName}] 채팅 서버에 퇴장되었습니다");
     }
 
     void Update()
@@ -172,7 +172,7 @@ public class MorningSession : Session, IChatClientListener
         if (_chatClient.State != ChatState.ConnectedToFrontEnd)
             return;
 
-        if (GameManager.Data._playerState == GameData.PlayerState.Deadman)
+        if (GameManager.Data.PlayerState == GameData.PlayerState.Deadman)
         {
             if (_chatClient.TryGetChannel(_channels[_channel], out var chatChannel))
             {
@@ -186,14 +186,14 @@ public class MorningSession : Session, IChatClientListener
 
     public void EnableChatServer()
     {
-        if (GameManager.Data._playerState == GameData.PlayerState.Deadman)
+        if (GameManager.Data.PlayerState == GameData.PlayerState.Deadman)
         {
             if (GetButton("DeadmanButton", out var dButton))
                 dButton.interactable = true;
             if (GetButton("SpyButton", out var sButton))
                 sButton.interactable = true;
         }
-        if (GameManager.Data._playerState == GameData.PlayerState.Spy)
+        if (GameManager.Data.PlayerState == GameData.PlayerState.Spy)
         {
             if (GetButton("SpyButton", out var sButton))
                 sButton.interactable = true;

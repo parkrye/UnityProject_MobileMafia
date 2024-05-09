@@ -11,7 +11,8 @@ public class MainPunManager : MonoBehaviourPunCallbacks
     private enum Session { Morning, Evening, Night }
 
     private int[] _voteArray;
-    private bool[] _aliveArray;
+    private bool[] _aliveStudents;
+    public bool[] AliveStudents { get { return _aliveStudents; } }
     private List<int> _normalStudents = new List<int>();
     private List<int> _spyStudents = new List<int>();
     public List<int> SpyStudents { get { return _spyStudents; } }
@@ -98,11 +99,11 @@ public class MainPunManager : MonoBehaviourPunCallbacks
     private void RequestSynchronizeData(bool[] spyArray)
     {
         _voteArray = new int[PhotonNetwork.PlayerList.Length];
-        _aliveArray = new bool[PhotonNetwork.PlayerList.Length];
+        _aliveStudents = new bool[PhotonNetwork.PlayerList.Length];
 
         foreach (var player in PhotonNetwork.PlayerList)
         {
-            _aliveArray[player.ActorNumber - 1] = true;
+            _aliveStudents[player.ActorNumber - 1] = true;
             if (spyArray[player.ActorNumber - 1])
                 _spyStudents.Add(player.ActorNumber - 1);
             else
@@ -110,7 +111,7 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         }
 
         if (_spyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber - 1))
-            GameManager.Data._playerState = GameData.PlayerState.Spy;
+            GameManager.Data.PlayerState = GameData.PlayerState.Spy;
 
         _session.Initialize();
         SessionChange((int)Session.Morning);
@@ -128,12 +129,18 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         _session.SessionChange(session);
     }
 
-    public void SessionChange(int session)
+    public void SessionChange(int nextSession)
     {
         if (PhotonNetwork.IsMasterClient == false)
             return;
 
-        photonView.RPC("RequestSessionChange", RpcTarget.AllBufferedViaServer, session);
+        if (nextSession < 0 || nextSession > 2)
+            nextSession = 0;
+
+        if (nextSession != 1)
+            WorkVoting();
+
+        photonView.RPC("RequestSessionChange", RpcTarget.AllBufferedViaServer, nextSession);
     }
 
     public void ResetVoteData()
@@ -158,7 +165,7 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         _session.DrawVoteCount(_voteArray);
     }
 
-    public int GetMostVoted()
+    public void WorkVoting()
     {
         var mostIndex = -1;
         var mostCount = 0;
@@ -171,6 +178,32 @@ public class MainPunManager : MonoBehaviourPunCallbacks
             }
         }
 
-        return mostIndex;
+        if (mostIndex >= 0)
+            photonView.RPC("KillPlayer", RpcTarget.AllBufferedViaServer, mostIndex);
+    }
+
+    [PunRPC]
+    private void KillPlayer(int index)
+    {
+        if (index == PhotonNetwork.LocalPlayer.ActorNumber - 1)
+            GameManager.Data.PlayerState = GameData.PlayerState.Deadman;
+        _aliveStudents[index] = false;
+        if (_normalStudents.Contains(index))
+        {
+            _normalStudents.Remove(index);
+        }
+        else if (_spyStudents.Contains(index))
+        {
+            _spyStudents.Remove(index);
+        }
+
+        if (_normalStudents.Count <= _spyStudents.Count)
+        {
+            Debug.Log("Mafia Wins");
+        }
+        else if (_spyStudents.Count <= 0)
+        {
+            Debug.Log("Citizen Wins");
+        }
     }
 }

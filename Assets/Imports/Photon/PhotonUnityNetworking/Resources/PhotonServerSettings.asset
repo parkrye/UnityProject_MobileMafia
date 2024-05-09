@@ -46,6 +46,8 @@ MonoBehaviour:
   - RequestSynchronizeTimer
   - RequestSessionChange
   - RequestVote
+  - RequestKillPlayer
+  - KillPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

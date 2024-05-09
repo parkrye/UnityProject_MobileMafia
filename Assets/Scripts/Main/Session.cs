@@ -11,7 +11,7 @@ public class Session : SceneUI
 
     }
 
-    public virtual void EndSession(int mostVotedIndex)
+    public virtual void EndSession()
     {
 
     }

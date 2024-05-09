@@ -18,9 +18,9 @@ public class EveningSession : Session
 
     }
 
-    public override void EndSession(int mostVotedIndex)
+    public override void EndSession()
     {
-        base.EndSession(mostVotedIndex);
+        base.EndSession();
 
 
     }

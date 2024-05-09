@@ -329,9 +329,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 36
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -1013,10 +1013,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1391172841, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
-      propertyPath: m_fontSize
-      value: 54.4
-      objectReference: {fileID: 0}
     - target: {fileID: 3514165777223268489, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -1166,7 +1162,7 @@ GameObject:
   - component: {fileID: 485667310}
   - component: {fileID: 485667309}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1240,9 +1236,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 24
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -1303,10 +1299,6 @@ PrefabInstance:
     - target: {fileID: 1391172840, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1391172841, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
-      propertyPath: m_fontSize
-      value: 54.4
       objectReference: {fileID: 0}
     - target: {fileID: 3514165777223268489, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1419,7 +1411,7 @@ GameObject:
   - component: {fileID: 601375475}
   - component: {fileID: 601375474}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1493,9 +1485,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 24
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -1706,7 +1698,7 @@ GameObject:
   - component: {fileID: 733293738}
   - component: {fileID: 733293737}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1780,9 +1772,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 24
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -2004,10 +1996,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1391172841, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
-      propertyPath: m_fontSize
-      value: 54.4
-      objectReference: {fileID: 0}
     - target: {fileID: 3514165777223268489, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -2121,10 +2109,6 @@ PrefabInstance:
     - target: {fileID: 1391172840, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1391172841, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
-      propertyPath: m_fontSize
-      value: 54.4
       objectReference: {fileID: 0}
     - target: {fileID: 3514165777223268489, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2274,7 +2258,7 @@ GameObject:
   - component: {fileID: 1117090806}
   - component: {fileID: 1117090805}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2348,9 +2332,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 16
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -2588,7 +2572,7 @@ GameObject:
   - component: {fileID: 1155050067}
   - component: {fileID: 1155050066}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2662,9 +2646,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 16
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -2927,10 +2911,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1391172841, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
-      propertyPath: m_fontSize
-      value: 54.4
-      objectReference: {fileID: 0}
     - target: {fileID: 3514165777223268489, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -3116,9 +3096,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 36
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -3179,10 +3159,6 @@ PrefabInstance:
     - target: {fileID: 1391172840, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1391172841, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
-      propertyPath: m_fontSize
-      value: 54.4
       objectReference: {fileID: 0}
     - target: {fileID: 3514165777223268489, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3298,10 +3274,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1391172841, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
-      propertyPath: m_fontSize
-      value: 54.4
-      objectReference: {fileID: 0}
     - target: {fileID: 3514165777223268489, guid: f3297e8a7719a544695245469dffa6cc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -3413,7 +3385,7 @@ GameObject:
   - component: {fileID: 1428986119}
   - component: {fileID: 1428986118}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3487,9 +3459,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 24
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0

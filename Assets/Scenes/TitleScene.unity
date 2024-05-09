@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 384446761}
   - component: {fileID: 384446760}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -253,9 +253,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 160
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -787,7 +787,7 @@ GameObject:
   - component: {fileID: 858773863}
   - component: {fileID: 858773862}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -861,9 +861,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 200
-  m_fontSizeBase: 110.9
+  m_fontSizeBase: 200
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 100
   m_fontSizeMax: 200
   m_fontStyle: 0
@@ -1261,9 +1261,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 160
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -1698,9 +1698,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 160
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0
@@ -1759,7 +1759,7 @@ GameObject:
   - component: {fileID: 2092036442}
   - component: {fileID: 2092036441}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1833,9 +1833,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 100
-  m_fontSizeBase: 160
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 50
   m_fontSizeMax: 100
   m_fontStyle: 0

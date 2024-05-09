@@ -6,7 +6,7 @@ public class LobbySceneLobbyCanvas : SceneUI
     protected override void AwakeSelf()
     {
         if (GetText("NameText", out var nText))
-            nText.text = GameManager.Data._playerName;
+            nText.text = GameManager.Data.PlayerName;
         if (GetButton("JoinButton", out var jButton))
             jButton.onClick.AddListener(OnRandomMatchingButtonTouched);
         if (GetButton("BackButton", out var bButton))
@@ -39,24 +39,24 @@ public class LobbySceneLobbyCanvas : SceneUI
 
     void OnUpAvatarButtonTouched()
     {
-        GameManager.Data._playerAvatar--;
-        if (GameManager.Data._playerAvatar < 0)
-            GameManager.Data._playerAvatar = 4;
+        GameManager.Data.PlayerAvatar--;
+        if (GameManager.Data.PlayerAvatar < 0)
+            GameManager.Data.PlayerAvatar = 4;
         ChangeAvatarImage();
     }
 
     void OnDownAvatarButtonTouched()
     {
-        GameManager.Data._playerAvatar++;
-        if (GameManager.Data._playerAvatar > 4)
-            GameManager.Data._playerAvatar = 0;
+        GameManager.Data.PlayerAvatar++;
+        if (GameManager.Data.PlayerAvatar > 4)
+            GameManager.Data.PlayerAvatar = 0;
         ChangeAvatarImage();
     }
 
     void ChangeAvatarImage()
     {
         if (GetImage("AvatarImage", out var aImage))
-            aImage.sprite = GameManager.Data._avaters[GameManager.Data._playerAvatar];
-        PhotonNetwork.LocalPlayer.SetAvatar(GameManager.Data._playerAvatar);
+            aImage.sprite = GameManager.Data.Avaters[GameManager.Data.PlayerAvatar];
+        PhotonNetwork.LocalPlayer.SetAvatar(GameManager.Data.PlayerAvatar);
     }
 }
