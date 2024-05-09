@@ -31,12 +31,12 @@ public class MainSessionManager : MonoBehaviour
 
     private IEnumerator TimerRoutine()
     {
-        Timer = _sessions[_currentSession].Time * 0.1f;
+        Timer = _sessions[_currentSession].Time;
         while (Timer > 0f)
         {
             yield return null;
             Timer -= Time.deltaTime;
-            _timer.fillAmount = Timer / (_sessions[_currentSession].Time * 0.1f);
+            _timer.fillAmount = Timer / _sessions[_currentSession].Time;
         }
         Timer = 0f;
         _pun.SessionChange(_currentSession + 1);

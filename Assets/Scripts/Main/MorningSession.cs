@@ -48,7 +48,7 @@ public class MorningSession : Session, IChatClientListener
         _chatClient.Disconnect();
     }
 
-    public void AddLine(string lineString, string sender = "")
+    public void AddLine(string lineString)
     {
         if (string.IsNullOrEmpty(lineString) || _channel < 0 || _channel > 2)
             return;
@@ -57,7 +57,10 @@ public class MorningSession : Session, IChatClientListener
             cText.text += lineString + "\n";
 
         if (_chatClient.TryGetChannel(_channels[_channel], out var chatChannel))
-            chatChannel.Add(sender, lineString, 0); //TODO: how to use msgID?
+        {
+            _chatClient.PublishMessage(chatChannel.Name, lineString);
+            ShowChannel(chatChannel.Name);
+        }
     }
 
     public void DebugReturn(DebugLevel level, string message)
@@ -100,15 +103,18 @@ public class MorningSession : Session, IChatClientListener
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
-        if (channelName.Equals(_channels[_channel]))
-        {
-            ShowChannel(_channels[_channel]);
-        }
+        //if (_chatClient.TryGetChannel(_channels[_channel], out var chatChannel))
+        //{
+        //    if (channelName.Equals(chatChannel.Name))
+        //    {
+        //        ShowChannel(_channels[_channel]);
+        //    }
+        //}
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName)
     {
-        AddLine($"[비밀] {sender}: {message}");
+        AddLine($"[비밀] {message}");
     }
 
     public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
@@ -155,7 +161,7 @@ public class MorningSession : Session, IChatClientListener
         if (_chatClient.State != ChatState.ConnectedToFrontEnd)
             return;
 
-        AddLine($"{GameManager.Data._playerName}: {text}", GameManager.Data._playerName);
+        AddLine(text);
     }
 
     public void EnableChatServer()
@@ -172,12 +178,11 @@ public class MorningSession : Session, IChatClientListener
         }
     }
 
-    void ChangeChatServer(int serverNum)
+    private void ChangeChatServer(int serverNum)
     {
         _channel = serverNum;
 
-        ChatChannel chatChannel = null;
-        bool found = this._chatClient.TryGetChannel(_channels[_channel], out chatChannel);
+        _chatClient.TryGetChannel(_channels[_channel], out var chatChannel);
         if (GetText("ChatText", out var cText))
             cText.text = chatChannel.ToStringMessages();
 
@@ -186,13 +191,9 @@ public class MorningSession : Session, IChatClientListener
     public void ShowChannel(string channelName)
     {
         if (string.IsNullOrEmpty(channelName))
-        {
             return;
-        }
 
-        ChatChannel channel = null;
-        bool found = this._chatClient.TryGetChannel(channelName, out channel);
-        if (!found)
+        if (_chatClient.TryGetChannel(channelName, out var channel) == false)
         {
             Debug.Log("ShowChannel failed to find channels: " + channelName);
             return;
