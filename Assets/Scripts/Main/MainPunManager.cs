@@ -188,22 +188,27 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         if (index == PhotonNetwork.LocalPlayer.ActorNumber - 1)
             GameManager.Data.PlayerState = GameData.PlayerState.Deadman;
         _aliveStudents[index] = false;
-        if (_normalStudents.Contains(index))
+
+        var normalCount = 0;
+        var spyCount = 0;
+        foreach (var normal in _normalStudents)
         {
-            _normalStudents.Remove(index);
+            if (_aliveStudents[normal])
+                normalCount++;
         }
-        else if (_spyStudents.Contains(index))
+        foreach (var spy in _spyStudents)
         {
-            _spyStudents.Remove(index);
+            if (_aliveStudents[spy])
+                spyCount++;
         }
 
-        if (_normalStudents.Count <= _spyStudents.Count)
+        if (normalCount <= spyCount)
         {
-            Debug.Log("Mafia Wins");
+            _session.EndGame(_spyStudents, "½ºÆÄÀÌ ½Â¸®!");
         }
-        else if (_spyStudents.Count <= 0)
+        else if (spyCount <= 0)
         {
-            Debug.Log("Citizen Wins");
+            _session.EndGame(_normalStudents, "½Ã¹Î ½Â¸®!");
         }
     }
 }

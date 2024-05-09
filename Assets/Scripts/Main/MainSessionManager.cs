@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class MainSessionManager : MonoBehaviour
     [SerializeField] private Image _timer;
     [SerializeField] private Session[] _sessions = new Session[3];
     [SerializeField] private Image _blockImage;
+    [SerializeField] private ResultUI _resultUI;
     private int _currentSession;
 
     public float Timer { get; private set; }
@@ -18,6 +20,8 @@ public class MainSessionManager : MonoBehaviour
     [SerializeField] private RectTransform _entryRoot;
     [SerializeField] private PlayerEntry[] _playerEntryList;
     private int _prevVoteNumber = -1;
+
+    private IEnumerator Clock;
 
     public void Initialize()
     {
@@ -30,6 +34,10 @@ public class MainSessionManager : MonoBehaviour
             _playerEntryList[i].InitializeInGame(PhotonNetwork.PlayerList.Length > i ? PhotonNetwork.PlayerList[i] : null);
             _playerEntryList[i].SetVoteActionOnEvent(VoteAction);
         }
+
+        Clock = TimerRoutine();
+
+        _resultUI.gameObject.SetActive(false);
     }
 
     private void VoteAction(int voteNumber)
@@ -105,6 +113,18 @@ public class MainSessionManager : MonoBehaviour
         }
         _entryRoot.gameObject.SetActive(_currentSession != 0);
         _sessions[_currentSession].StartSession();
-        StartCoroutine(TimerRoutine());
+        StartCoroutine(Clock);
+    }
+
+    public void EndGame(List<int> winners, string text)
+    {
+        StopCoroutine(Clock);
+        _resultUI.gameObject.SetActive(true);
+        foreach (var winner in winners)
+        {
+            if (_playerEntryList[winner].GetImage("BG", out var bg))
+                bg.color = Color.green;
+        }
+        _resultUI.SetText(text);
     }
 }
