@@ -10,4 +10,5 @@ public class EveningSession : Session
 
         Time = 30f;
     }
+
 }

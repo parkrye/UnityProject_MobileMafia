@@ -10,7 +10,8 @@ public class MainPunManager : MonoBehaviourPunCallbacks
 
     private enum Session { Morning, Evening, Night }
 
-    private Dictionary<int, bool> _aliveDictionary = new Dictionary<int, bool>();
+    private int[] _voteArray;
+    private bool[] _aliveArray;
     private List<int> _normalStudents = new List<int>();
     private List<int> _spyStudents = new List<int>();
 
@@ -95,16 +96,19 @@ public class MainPunManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RequestSynchronizeData(bool[] spyArray)
     {
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        _voteArray = new int[PhotonNetwork.PlayerList.Length];
+        _aliveArray = new bool[PhotonNetwork.PlayerList.Length];
+
+        foreach (var player in PhotonNetwork.PlayerList)
         {
-            _aliveDictionary.Add(i, true);
-            if (spyArray[i])
-                _spyStudents.Add(i);
+            _aliveArray[player.ActorNumber - 1] = true;
+            if (spyArray[player.ActorNumber - 1])
+                _spyStudents.Add(player.ActorNumber - 1);
             else
-                _normalStudents.Add(i);
+                _normalStudents.Add(player.ActorNumber - 1);
         }
 
-        if (_spyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber))
+        if (_spyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber - 1))
             GameManager.Data._playerState = GameData.PlayerState.Spy;
 
         _session.Initialize();
@@ -129,5 +133,43 @@ public class MainPunManager : MonoBehaviourPunCallbacks
             return;
 
         photonView.RPC("RequestSessionChange", RpcTarget.AllBufferedViaServer, session);
+    }
+
+    public void ResetVoteData()
+    {
+        for(int i = 0; i < _voteArray.Length; i++)
+        {
+            _voteArray[i] = 0;
+        }
+    }
+
+    public void Vote(int targetNumber, int prevNumber = -1)
+    {
+        photonView.RPC("RequestVote", RpcTarget.AllBufferedViaServer, targetNumber, prevNumber);
+    }
+
+    [PunRPC]
+    private void RequestVote(int targetNumber, int prevNumber)
+    {
+        if (prevNumber >= 0)
+            _voteArray[prevNumber]--;
+        _voteArray[targetNumber]++;
+        _session.DrawVoteCount(_voteArray);
+    }
+
+    public int GetMostVoted()
+    {
+        var mostIndex = -1;
+        var mostCount = 0;
+        for (int i = 0; i < _voteArray.Length; i++)
+        {
+            if (_voteArray[i] > mostCount)
+            {
+                mostIndex = i;
+                mostCount = _voteArray[i];
+            }
+        }
+
+        return mostIndex;
     }
 }

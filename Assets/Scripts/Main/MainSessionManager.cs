@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class MainSessionManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class MainSessionManager : MonoBehaviour
 
     [SerializeField] private RectTransform _entryRoot;
     [SerializeField] private PlayerEntry[] _playerEntryList;
+    private int _prevVoteNumber = -1;
 
     public void Initialize()
     {
@@ -26,6 +28,21 @@ public class MainSessionManager : MonoBehaviour
         for (int i = 0; i < _playerEntryList.Length; i++)
         {
             _playerEntryList[i].InitializeInGame(PhotonNetwork.PlayerList.Length > i ? PhotonNetwork.PlayerList[i] : null);
+            _playerEntryList[i].SetVoteActionOnEvent(VoteAction);
+        }
+    }
+
+    private void VoteAction(int voteNumber)
+    {
+        _pun.Vote(voteNumber, _prevVoteNumber);
+        _prevVoteNumber = voteNumber;
+    }
+
+    public void DrawVoteCount(int[] voteCounts)
+    {
+        for (int i = 0; i < voteCounts.Length; i++)
+        {
+            _playerEntryList[i].SetCountText(voteCounts[i]);
         }
     }
 
@@ -56,6 +73,10 @@ public class MainSessionManager : MonoBehaviour
         {
             _sessions[_currentSession].EndSession();
             _currentSession = sessionIndex;
+            for (int i = 0; i < _playerEntryList.Length; i++)
+            {
+                _playerEntryList[i].SetCountText(0);
+            }
         }
         for (int i = 0; i < 3; i++)
         {

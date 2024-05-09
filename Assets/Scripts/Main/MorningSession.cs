@@ -59,7 +59,7 @@ public class MorningSession : Session, IChatClientListener
         if (_chatClient.TryGetChannel(_channels[_channel], out var chatChannel))
         {
             _chatClient.PublishMessage(chatChannel.Name, lineString);
-            ShowChannel(chatChannel.Name);
+            ShowChatMessages();
         }
     }
 
@@ -193,12 +193,20 @@ public class MorningSession : Session, IChatClientListener
     {
         _channel = serverNum;
 
-        _chatClient.TryGetChannel(_channels[_channel], out var chatChannel);
-        if (GetText("ChatText", out var cText))
-            cText.text = chatChannel.ToStringMessages();
+        ShowChatMessages();
 
         ShowChannel(_channels[_channel]);
     }
+
+    private void ShowChatMessages()
+    {
+        if (_chatClient.TryGetChannel(_channels[_channel], out var chatChannel))
+        {
+            if (GetText("ChatText", out var cText))
+                cText.text = chatChannel.ToStringMessages();
+        }
+    }
+
     public void ShowChannel(string channelName)
     {
         if (string.IsNullOrEmpty(channelName))
@@ -209,6 +217,5 @@ public class MorningSession : Session, IChatClientListener
             Debug.Log("ShowChannel failed to find channels: " + channelName);
             return;
         }
-
     }
 }
