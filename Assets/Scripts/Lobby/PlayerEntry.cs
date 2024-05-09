@@ -29,6 +29,8 @@ public class PlayerEntry : SceneUI
             pnText.text = string.Empty;
         if (GetImage("PlayerImage", out var pImage))
             pImage.sprite = null;
+        if (GetButton("Button", out var button))
+            button.enabled = false;
         SetPlayerReady(false);
 
         _isUsing = false;
