@@ -24,6 +24,8 @@ public class MainSessionManager : MonoBehaviour
     public void Initialize()
     {
         (_sessions[0] as MorningSession).EnableChatServer();
+        (_sessions[1] as EveningSession).EmoticonEvent.AddListener(EmoticonAction);
+        (_sessions[2] as NightSession).EmoticonEvent.AddListener(EmoticonAction);
         _currentSession = 0;
 
         _playerEntryList = _entryRoot.GetComponentsInChildren<PlayerEntry>().OrderBy(t => t.name).ToArray();
@@ -137,5 +139,15 @@ public class MainSessionManager : MonoBehaviour
                 bg.color = Color.green;
         }
         _resultUI.SetText(text);
+    }
+
+    private void EmoticonAction(int index)
+    {
+        _pun.ShowEmoticon(index);
+    }
+
+    public void ShowEmoticon(int entry, int icon)
+    {
+        _playerEntryList[entry].ShowEmoticon(icon);
     }
 }

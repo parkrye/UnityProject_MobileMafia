@@ -1,6 +1,8 @@
 using Photon.Realtime;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.U2D;
 
 public class PlayerEntry : SceneUI
 {
@@ -8,6 +10,7 @@ public class PlayerEntry : SceneUI
     public bool _isUsing;
 
     private UnityEvent<int> _voteEvent = new UnityEvent<int>();
+    private SpriteAtlas _spriteAtlas;
 
     public void InitializeInLobby(Player player)
     {
@@ -19,6 +22,8 @@ public class PlayerEntry : SceneUI
             pnText.text = _player.NickName;
         if (GetImage("PlayerImage", out var pImage))
             pImage.sprite = GameManager.Data.Avaters[_player.GetAvatar()];
+        if (GetImage("IconRoot", out var iImage))
+            iImage.enabled = false;
 
         SetPlayerReady(CustomProperty.GetReady(_player));
 
@@ -71,6 +76,10 @@ public class PlayerEntry : SceneUI
             if (_player != null)
                 button.onClick.AddListener(() => _voteEvent?.Invoke(_player.ActorNumber - 1));
         }
+        if (GetImage("IconRoot", out var iImage))
+            iImage.enabled = false;
+
+        _spriteAtlas = GameManager.Resource.Load<SpriteAtlas>("Materials/Icon");
     }
 
     public void SetVoteActionOnEvent(UnityAction<int> action)
@@ -87,6 +96,26 @@ public class PlayerEntry : SceneUI
                 countText.text = string.Empty;
             else
                 countText.text = $"{count}";
+        }
+    }
+
+    public void ShowEmoticon(int index)
+    {
+        StopAllCoroutines();
+        StartCoroutine(EmoticonRoutine(index));
+    }
+
+    private IEnumerator EmoticonRoutine(int index)
+    {
+        if (GetImage("IconRoot", out var iImage))
+        {
+            iImage.sprite = _spriteAtlas.GetSprite($"Icon ({index})");
+            iImage.enabled = true;
+
+            yield return new WaitForSeconds(2f);
+
+            iImage.enabled = false;
+            iImage.sprite = null;
         }
     }
 

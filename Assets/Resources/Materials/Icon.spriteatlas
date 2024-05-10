@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Icon
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 70d73615a1a228c4eb9545e9f4a77efe, type: 3}
+    - {fileID: 21300000, guid: 3c0fdb7f72c57cb43b6eb0f66634ccaa, type: 3}
+    - {fileID: 21300000, guid: de847711d0ab0c34dbe7d8c22713fd90, type: 3}
+    - {fileID: 21300000, guid: 3805f81a2e03adc4fbbbc5fbfc44dbe0, type: 3}
+    - {fileID: 21300000, guid: 3c8e67ea3492d0a49936ba7865005de4, type: 3}
+    - {fileID: 21300000, guid: 0c1d5f315b734a447a0d1bd34bbbedeb, type: 3}
+    - {fileID: 21300000, guid: a6ac3e2f77140da4a923e77bb65f1979, type: 3}
+    - {fileID: 21300000, guid: 949a8063bed37494f8af08f142cd56d3, type: 3}
+    - {fileID: 21300000, guid: 4f3fbe98bd714bd439997810f78cce7b, type: 3}
+    - {fileID: 21300000, guid: bfc067765476b88429eb25b150e8c343, type: 3}
+    - {fileID: 21300000, guid: 6f40894a0a50bcb46b2220ce6ff0c63b, type: 3}
+    - {fileID: 21300000, guid: 2f261ba4442b24d438552f710443968b, type: 3}
+    - {fileID: 21300000, guid: 2331ec726f817c34ab084259b7e3fa52, type: 3}
+    - {fileID: 21300000, guid: ae6da1a3377ef3a458013116d17a0865, type: 3}
+    - {fileID: 21300000, guid: 4e33a8a59e434a147a0261838725f6ec, type: 3}
+    - {fileID: 21300000, guid: c6d82688e7b591c43968256bfb6f457e, type: 3}
+    - {fileID: 21300000, guid: 8c5f2b70ea8a4434e9dd367dd7bfffb1, type: 3}
+    - {fileID: 21300000, guid: 04fdd0b56ba998c4c94963c4f8d57d99, type: 3}
+    - {fileID: 21300000, guid: 5889a27e7e525ca46a9de355dbab4b40, type: 3}
+    - {fileID: 21300000, guid: 5742bb24ebab2164da9dcc7eb1756bf3, type: 3}
+    - {fileID: 21300000, guid: 0de6f446eccdb4a4d8c699fdf7983282, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 8c5f2b70ea8a4434e9dd367dd7bfffb1, type: 3}
+  - {fileID: 21300000, guid: de847711d0ab0c34dbe7d8c22713fd90, type: 3}
+  - {fileID: 21300000, guid: 0c1d5f315b734a447a0d1bd34bbbedeb, type: 3}
+  - {fileID: 21300000, guid: 2331ec726f817c34ab084259b7e3fa52, type: 3}
+  - {fileID: 21300000, guid: 949a8063bed37494f8af08f142cd56d3, type: 3}
+  - {fileID: 21300000, guid: ae6da1a3377ef3a458013116d17a0865, type: 3}
+  - {fileID: 21300000, guid: 5742bb24ebab2164da9dcc7eb1756bf3, type: 3}
+  - {fileID: 21300000, guid: 2f261ba4442b24d438552f710443968b, type: 3}
+  - {fileID: 21300000, guid: 70d73615a1a228c4eb9545e9f4a77efe, type: 3}
+  - {fileID: 21300000, guid: 4e33a8a59e434a147a0261838725f6ec, type: 3}
+  - {fileID: 21300000, guid: 04fdd0b56ba998c4c94963c4f8d57d99, type: 3}
+  - {fileID: 21300000, guid: 0de6f446eccdb4a4d8c699fdf7983282, type: 3}
+  - {fileID: 21300000, guid: bfc067765476b88429eb25b150e8c343, type: 3}
+  - {fileID: 21300000, guid: c6d82688e7b591c43968256bfb6f457e, type: 3}
+  - {fileID: 21300000, guid: 4f3fbe98bd714bd439997810f78cce7b, type: 3}
+  - {fileID: 21300000, guid: 3805f81a2e03adc4fbbbc5fbfc44dbe0, type: 3}
+  - {fileID: 21300000, guid: 6f40894a0a50bcb46b2220ce6ff0c63b, type: 3}
+  - {fileID: 21300000, guid: 3c8e67ea3492d0a49936ba7865005de4, type: 3}
+  - {fileID: 21300000, guid: 5889a27e7e525ca46a9de355dbab4b40, type: 3}
+  - {fileID: 21300000, guid: a6ac3e2f77140da4a923e77bb65f1979, type: 3}
+  - {fileID: 21300000, guid: 3c0fdb7f72c57cb43b6eb0f66634ccaa, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Icon (17)
+  - Icon (3)
+  - Icon (6)
+  - Icon (13)
+  - Icon (8)
+  - Icon (14)
+  - Icon (20)
+  - Icon (12)
+  - Icon (1)
+  - Icon (15)
+  - Icon (18)
+  - Icon (21)
+  - Icon (10)
+  - Icon (16)
+  - Icon (9)
+  - Icon (4)
+  - Icon (11)
+  - Icon (5)
+  - Icon (19)
+  - Icon (7)
+  - Icon (2)
+  m_RenderDataMap: {}
+  m_Tag: Icon
+  m_IsVariant: 0

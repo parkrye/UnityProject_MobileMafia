@@ -211,4 +211,15 @@ public class MainPunManager : MonoBehaviourPunCallbacks
             _session.EndGame(_normalStudents, "½Ã¹Î ½Â¸®!");
         }
     }
+
+    public void ShowEmoticon(int index)
+    {
+        photonView.RPC("RequestEmoticon", RpcTarget.AllBufferedViaServer, PhotonNetwork.LocalPlayer.ActorNumber - 1, index);
+    }
+
+    [PunRPC]
+    private void RequestEmoticon(int player, int index)
+    {
+        _session.ShowEmoticon(player, index);
+    }
 }
