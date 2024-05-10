@@ -86,6 +86,7 @@ public class MainSessionManager : MonoBehaviour
                     _playerEntryList[i].OnDead();
             }
             _currentSession = sessionIndex;
+            _pun.ResetVoteData();
         }
 
         if (_currentSession == 0)
