@@ -21,8 +21,6 @@ public class MainSessionManager : MonoBehaviour
     [SerializeField] private PlayerEntry[] _playerEntryList;
     private int _prevVoteNumber = -1;
 
-    private IEnumerator Clock;
-
     public void Initialize()
     {
         (_sessions[0] as MorningSession).EnableChatServer();
@@ -34,8 +32,6 @@ public class MainSessionManager : MonoBehaviour
             _playerEntryList[i].InitializeInGame(PhotonNetwork.PlayerList.Length > i ? PhotonNetwork.PlayerList[i] : null);
             _playerEntryList[i].SetVoteActionOnEvent(VoteAction);
         }
-
-        Clock = TimerRoutine();
 
         _resultUI.gameObject.SetActive(false);
     }
@@ -113,12 +109,20 @@ public class MainSessionManager : MonoBehaviour
         }
         _entryRoot.gameObject.SetActive(_currentSession != 0);
         _sessions[_currentSession].StartSession();
-        StartCoroutine(Clock);
+        StopAllCoroutines();
+        StartCoroutine(TimerRoutine());
     }
 
     public void EndGame(List<int> winners, string text)
     {
-        StopCoroutine(Clock);
+        StopAllCoroutines();
+        foreach (var session in _sessions)
+        {
+            session.gameObject.SetActive(false);
+        }
+        _blockImage.gameObject.SetActive(false);
+        _timer.transform.parent.gameObject.SetActive(false);
+        _entryRoot.gameObject.SetActive(true);
         _resultUI.gameObject.SetActive(true);
         foreach (var winner in winners)
         {

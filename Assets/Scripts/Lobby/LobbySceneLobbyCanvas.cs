@@ -17,11 +17,6 @@ public class LobbySceneLobbyCanvas : SceneUI
             daButton.onClick.AddListener(OnDownAvatarButtonTouched);
     }
 
-    void OnEnable()
-    {
-        PhotonNetwork.JoinLobby();
-    }
-
     void OnLeaveLobbyButtonTouched()
     {
         GameManager.Scene.LoadScene("StartScene");
