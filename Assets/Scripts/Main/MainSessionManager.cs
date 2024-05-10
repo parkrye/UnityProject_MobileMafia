@@ -40,6 +40,9 @@ public class MainSessionManager : MonoBehaviour
 
     private void VoteAction(int voteNumber)
     {
+        if (GameManager.Data.PlayerState == GameData.PlayerState.Deadman)
+            return;
+
         _pun.Vote(voteNumber, _prevVoteNumber);
         _prevVoteNumber = voteNumber;
     }
@@ -86,6 +89,7 @@ public class MainSessionManager : MonoBehaviour
                     _playerEntryList[i].OnDead();
             }
             _currentSession = sessionIndex;
+            _prevVoteNumber = -1;
             _pun.ResetVoteData();
         }
 
@@ -103,7 +107,8 @@ public class MainSessionManager : MonoBehaviour
 
             if (_currentSession == 2)
             {
-                if (_pun.SpyStudents.Contains(PhotonNetwork.LocalPlayer.ActorNumber - 1))
+                if (GameManager.Data.PlayerState == GameData.PlayerState.Deadman ||
+                    GameManager.Data.PlayerState == GameData.PlayerState.Spy)
                     _blockImage.gameObject.SetActive(false);
                 else
                     _blockImage.gameObject.SetActive(true);

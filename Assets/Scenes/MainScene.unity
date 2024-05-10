@@ -1095,7 +1095,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deadman
+  m_text: "\uC18C\uC678\uC790"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3fb1ff58143d4446884f4e4aee0cefb, type: 2}
   m_sharedMaterial: {fileID: -6104081847696711606, guid: f3fb1ff58143d4446884f4e4aee0cefb, type: 2}
@@ -1953,7 +1953,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Everyone
+  m_text: "\uCC38\uC11D\uC790"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3fb1ff58143d4446884f4e4aee0cefb, type: 2}
   m_sharedMaterial: {fileID: -6104081847696711606, guid: f3fb1ff58143d4446884f4e4aee0cefb, type: 2}
@@ -4779,7 +4779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Spy
+  m_text: "\uACFC\uACA9\uD30C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3fb1ff58143d4446884f4e4aee0cefb, type: 2}
   m_sharedMaterial: {fileID: -6104081847696711606, guid: f3fb1ff58143d4446884f4e4aee0cefb, type: 2}

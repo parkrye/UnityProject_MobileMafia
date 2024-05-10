@@ -208,7 +208,7 @@ public class MainPunManager : MonoBehaviourPunCallbacks
         }
         else if (spyCount <= 0)
         {
-            _session.EndGame(_normalStudents, "½Ã¹Î ½Â¸®!");
+            _session.EndGame(_normalStudents, "½ºÆÄÀÌ »öÃâ!");
         }
     }
 
