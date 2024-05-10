@@ -72,6 +72,9 @@ public class MainSessionManager : MonoBehaviour
 
     public void SessionChange(int sessionIndex)
     {
+        if (_resultUI.isActiveAndEnabled)
+            return;
+
         if (_currentSession != sessionIndex)
         {
             _sessions[_currentSession].EndSession();
@@ -90,9 +93,9 @@ public class MainSessionManager : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < _playerEntryList.Length; i++)
+            foreach (var entry in _playerEntryList)
             {
-                _playerEntryList[i].SetCountText(0);
+                entry.SetCountText(0);
             }
 
             if (_currentSession == 2)
@@ -119,6 +122,10 @@ public class MainSessionManager : MonoBehaviour
         foreach (var session in _sessions)
         {
             session.gameObject.SetActive(false);
+        }
+        foreach (var entry in _playerEntryList)
+        {
+            entry.SetCountText(0);
         }
         _blockImage.gameObject.SetActive(false);
         _timer.transform.parent.gameObject.SetActive(false);
